@@ -3,72 +3,72 @@
 module.exports =
 
   activate: (state) ->
-    console.log(state)
-    x = state.x
-    y = state.y
-    width = state.width
-    height = state.height
-    treeSize = state.treeSize
+    x = atom.config.get('save-session.x')
+    y = atom.config.get('save-session.y')
+    width = atom.config.get('save-session.width')
+    height = atom.config.get('save-session.height')
+    treeSize = atom.config.get('save-session.treeSize')
+    project = atom.config.get('save-session.project')
+    buffersStr = atom.config.get('save-session.buffers')
+    buffers = JSON.parse(buffersStr)
 
-    @restoreBuffers();
-    $(window).on 'ready', =>
-      @restoreDimensions(x, y, width, height, treeSize)
+    atom.workspaceView.command 'save-session:save', => @saveBuffers()
 
-    atom.workspaceView.command 'save-session:add-listeners', => @addListeners()
-    atom.workspaceView.command 'save-session:save-buffers', => @saveBuffers()
-    atom.workspaceView.command 'save-session:save-dimensions', => @saveDimensions()
-    atom.workspaceView.command 'save-session:restore-dimensions', => @restoreDimensions()
-    atom.workspaceView.command 'save-session:save-session', => @saveSession()
+    if x? and y? and width? and height?
+      @restoreDimensions(x, y, width, height)
 
-  serialize: ->
-    window = atom.getWindowDimensions()
-    treeSize = $('.tree-view-resizer').width()
+    if treeSize?
+      @restoreTreeSize(treeSize)
 
-    ret = {
-      'x': window.x,
-      'y': window.y,
-      'width': window.width,
-      'height': window.height,
-      'treeSize': treeSize
-    }
-    console.log(ret)
-    ret
+    if project?
+      @restoreProject(project)
 
-  saveTabs: ->
-    #atom.config.set('save-session.tabs')
-    tabs = ''
-    atom.workspace.eachEditor((editor) ->
-      if editor.getPath?
-        tabs += '&&' + editor.getPath()
-    )
+    if buffers?
+      @restoreBuffers(buffers)
 
-    selectedTab = 0
-
-    atom.workspace.eachEditor((editor) ->
-      if(not editor.hasClass('active'))
-        selectedTab++
-    )
-
-    console.log(tabs)
-    console.log(selectedTab)
-
-  saveBuffers: ->
-    texts = []
-    atom.workspace.eachEditor((editor) ->
-      if editor.getPath()?
-        texts.push editor.buffer.cachedText
-    )
+    @addListeners()
 
   saveDimensions: ->
     window = atom.getWindowDimensions()
     treeSize = $('.tree-view-resizer').width()
-    @x = window.x
-    @y = window.y
-    @width = window.width
-    @height = window.height
 
-  restoreBuffers: ->
-    console.log 'Restore buffers'
+    atom.config.set('save-session.x', window.x)
+    atom.config.set('save-session.y', window.y)
+    atom.config.set('save-session.width', window.width)
+    atom.config.set('save-session.height', window.height)
+    atom.config.set('save-session.tree-size', treeSize)
+    atom.config.set('save-session.project', atom.project.getPath())
+
+  saveBuffers: ->
+    buffers = []
+    atom.workspace.eachEditor (editor) ->
+      buffer = {}
+      buffer.diskText = editor.buffer.cachedDiskContents
+      buffer.text = editor.buffer.cachedText
+      buffer.active = $(editor).hasClass('active')
+      buffer.path = editor.getPath()
+
+      buffers.push buffer
+
+    atom.config.set('save-session.buffers', JSON.stringify(buffers))
+
+  restoreBuffers: (buffers) ->
+    panes = atom.workspace.getPaneItems()
+    console.log(buffers)
+
+    for buffer in buffers
+      @openBuffer(buffer)
+
+  openBuffer: (buffer) ->
+    console.log(buffer)
+    atom.workspace.open(buffer.path)
+      .then (editor) ->
+        buf = editor.buffer
+
+        # Replace the text if needed
+        if buf.getText() != buffer.text and buf.getText() == buffer.diskText
+           buf.setText(buffer.text)
+
 
   restoreDimensions: (x, y, width, height, treeSize) ->
     atom.setWindowDimensions
@@ -76,11 +76,15 @@ module.exports =
       'y': y
       'width': width
       'height': height
-    $('.tree-view-resizer').width(treeSize)
 
-  saveSession: ->
-    @saveBuffers()
-    @saveDimensions()
+  restoreTreeSize: (size) ->
+    $(window).on 'ready', ->
+      $('.tree-view-resizer').width(size)
+
+  restoreProject: (path) ->
+    if path?
+      atom.project.setPath(path)
 
   addListeners: ->
     $(window).on 'resize', => @saveDimensions()
+    $('.tree-view.resizer').on 'resize', => @saveTreeSize()
