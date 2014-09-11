@@ -12,8 +12,6 @@ module.exports =
     buffersStr = atom.config.get('save-session.buffers')
     buffers = JSON.parse(buffersStr)
 
-    atom.workspaceView.command 'save-session:save', => @saveBuffers()
-
     if x? and y? and width? and height?
       @restoreDimensions(x, y, width, height)
 
@@ -37,6 +35,8 @@ module.exports =
     atom.config.set('save-session.width', window.width)
     atom.config.set('save-session.height', window.height)
     atom.config.set('save-session.tree-size', treeSize)
+
+  saveProject: ->
     atom.config.set('save-session.project', atom.project.getPath())
 
   saveBuffers: ->
@@ -52,15 +52,15 @@ module.exports =
 
     atom.config.set('save-session.buffers', JSON.stringify(buffers))
 
-  restoreBuffers: (buffers) ->
-    panes = atom.workspace.getPaneItems()
-    console.log(buffers)
+  saveTimer: ->
+    @saveProject()
+    @saveBuffers()
 
+  restoreBuffers: (buffers) ->
     for buffer in buffers
       @openBuffer(buffer)
 
   openBuffer: (buffer) ->
-    console.log(buffer)
     atom.workspace.open(buffer.path)
       .then (editor) ->
         buf = editor.buffer
@@ -87,4 +87,4 @@ module.exports =
 
   addListeners: ->
     $(window).on 'resize', => @saveDimensions()
-    $('.tree-view.resizer').on 'resize', => @saveTreeSize()
+    runTimer = setInterval((=> @saveTimer()), (5000))
