@@ -1,3 +1,7 @@
+## 0.1.2 - Fixed Readme
+
+## 0.1.1 - Published Package
+
 ## 0.1.0 - First Release
 * The project is reopened if there is no project already open.
 * Dimensions are reloaded
