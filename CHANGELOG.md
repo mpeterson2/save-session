@@ -1,3 +1,7 @@
+## 0.2.0 - Buffers are saved a file.
+* Buffers are saved to a file instead of settings so users can open their config
+files without breaking everything.
+
 ## 0.1.2 - Fixed Readme
 
 ## 0.1.1 - Published Package
