@@ -22,7 +22,9 @@ Atom is closed and relaunched.
 Except for files, Save Session uses Atom's settings to save its data. If you
 look at your settings for Save Session, you will see it all there.
 
-Files are saved in as json on a file at `<atom dir>/save-sessions-buffer.json`
+Files are saved in as json on a file. By default, this file is stored
+at `<atom dir>/save-sessions-buffer.json`, but this can be changed through the
+setting `Buffer Save File`.
 
 ## Contributing
 

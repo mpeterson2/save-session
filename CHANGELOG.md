@@ -1,3 +1,6 @@
+## 0.2.1 - Settings
+* Users can specify their buffer save file.
+
 ## 0.2.0 - Buffers are saved a file.
 * Buffers are saved to a file instead of settings so users can open their config
 files without breaking everything.

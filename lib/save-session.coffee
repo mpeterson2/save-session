@@ -3,8 +3,10 @@ fs = require 'fs'
 
 module.exports =
 
+  configDefaults:
+    bufferSaveFile: atom.config.configDirPath + '/save-session-buffer.json'
+
   activate: (state) ->
-    @bufferSaveFile = atom.config.configDirPath + '/save-session-buffer.json'
     x = atom.config.get('save-session.x')
     y = atom.config.get('save-session.y')
     width = atom.config.get('save-session.width')
@@ -12,8 +14,8 @@ module.exports =
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
 
-    if fs.existsSync(@bufferSaveFile)
-      buffersStr = fs.readFileSync(@bufferSaveFile, encoding: 'utf8')
+    if fs.existsSync(@getBufferSaveFile())
+      buffersStr = fs.readFileSync(@getBufferSaveFile(), encoding: 'utf8')
     buffers = null
     if buffersStr?
       buffers = JSON.parse(buffersStr)
@@ -31,6 +33,9 @@ module.exports =
       @restoreProject(project)
 
     @addListeners()
+
+  getBufferSaveFile: ->
+    atom.config.get 'save-session.bufferSaveFile'
 
   getActivePath: ->
     for tab in $('.tab-bar').children('li')
@@ -62,7 +67,7 @@ module.exports =
 
       buffers.push buffer
 
-    fs.writeFile(@bufferSaveFile, JSON.stringify(buffers))
+    fs.writeFile(@getBufferSaveFile(), JSON.stringify(buffers))
 
   saveTimer: ->
     @saveProject()
