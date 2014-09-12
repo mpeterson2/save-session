@@ -1,15 +1,19 @@
 {$} = require 'atom'
+fs = require 'fs'
 
 module.exports =
 
   activate: (state) ->
+    @bufferSaveFile = atom.config.configDirPath + '/save-session-buffer.json'
     x = atom.config.get('save-session.x')
     y = atom.config.get('save-session.y')
     width = atom.config.get('save-session.width')
     height = atom.config.get('save-session.height')
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
-    buffersStr = atom.config.get('save-session.z buffers')
+
+    if fs.existsSync(@bufferSaveFile)
+      buffersStr = fs.readFileSync(@bufferSaveFile, encoding: 'utf8')
     buffers = null
     if buffersStr?
       buffers = JSON.parse(buffersStr)
@@ -58,7 +62,7 @@ module.exports =
 
       buffers.push buffer
 
-    atom.config.set('save-session.z buffers', JSON.stringify(buffers))
+    fs.writeFile(@bufferSaveFile, JSON.stringify(buffers))
 
   saveTimer: ->
     @saveProject()
