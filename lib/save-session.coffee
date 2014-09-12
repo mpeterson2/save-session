@@ -7,10 +7,12 @@ module.exports =
     y = atom.config.get('save-session.y')
     width = atom.config.get('save-session.width')
     height = atom.config.get('save-session.height')
-    treeSize = atom.config.get('save-session.treeSize')
+    treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
-    buffersStr = atom.config.get('save-session.buffers')
-    buffers = JSON.parse(buffersStr)
+    buffersStr = atom.config.get('save-session.z buffers')
+    buffers = null
+    if buffersStr?
+      buffers = JSON.parse(buffersStr)
 
     if x? and y? and width? and height?
       @restoreDimensions(x, y, width, height)
@@ -18,13 +20,18 @@ module.exports =
     if treeSize?
       @restoreTreeSize(treeSize)
 
-    if project?
-      @restoreProject(project)
-
     if buffers?
       @restoreBuffers(buffers)
 
+    if project? and not atom.project.getPath()?
+      @restoreProject(project)
+
     @addListeners()
+
+  getActivePath: ->
+    for tab in $('.tab-bar').children('li')
+      if $(tab).hasClass('active')
+        return $(tab).children('.title').data('path')
 
   saveDimensions: ->
     window = atom.getWindowDimensions()
@@ -34,23 +41,24 @@ module.exports =
     atom.config.set('save-session.y', window.y)
     atom.config.set('save-session.width', window.width)
     atom.config.set('save-session.height', window.height)
-    atom.config.set('save-session.tree-size', treeSize)
+    atom.config.set('save-session.tree size', treeSize)
 
   saveProject: ->
     atom.config.set('save-session.project', atom.project.getPath())
 
   saveBuffers: ->
     buffers = []
+    activePath = @getActivePath()
     atom.workspace.eachEditor (editor) ->
       buffer = {}
       buffer.diskText = editor.buffer.cachedDiskContents
       buffer.text = editor.buffer.cachedText
-      buffer.active = $(editor).hasClass('active')
+      buffer.active = activePath == editor.getPath()
       buffer.path = editor.getPath()
 
       buffers.push buffer
 
-    atom.config.set('save-session.buffers', JSON.stringify(buffers))
+    atom.config.set('save-session.z buffers', JSON.stringify(buffers))
 
   saveTimer: ->
     @saveProject()
@@ -60,15 +68,16 @@ module.exports =
     for buffer in buffers
       @openBuffer(buffer)
 
+
   openBuffer: (buffer) ->
-    atom.workspace.open(buffer.path)
-      .then (editor) ->
-        buf = editor.buffer
+    # activatePane does not work yet :(
+      editor = atom.workspace.open(buffer.path, activatePane: buffer.active)
+        .then (editor) ->
+          buf = editor.buffer
 
-        # Replace the text if needed
-        if buf.getText() != buffer.text and buf.getText() == buffer.diskText
-           buf.setText(buffer.text)
-
+          # Replace the text if needed
+          if buf.getText() != buffer.text and buf.getText() == buffer.diskText
+             buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
     atom.setWindowDimensions
@@ -82,9 +91,12 @@ module.exports =
       $('.tree-view-resizer').width(size)
 
   restoreProject: (path) ->
-    if path?
-      atom.project.setPath(path)
+    atom.project.setPath(path)
 
   addListeners: ->
     $(window).on 'resize', => @saveDimensions()
-    runTimer = setInterval((=> @saveTimer()), (5000))
+
+    atom.workspace.observeTextEditors (editor) =>
+      editor.onDidStopChanging =>
+        @saveProject()
+        @saveBuffers()

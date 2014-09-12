@@ -1,3 +1,6 @@
 ## 0.1.0 - First Release
-* Dimensions and open files are saved and reloaded
-  Files that are not saved are also reopened.
+* The project is reopened if there is no project already open.
+* Dimensions are reloaded
+* Open files are reloaded if the project is reloaded.
+  * Files will be opened with the contents they had when they were closed
+  * This includes unsaved files
