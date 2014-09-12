@@ -2,8 +2,8 @@
   "name": "save-session",
   "main": "./lib/save-session",
   "version": "0.1.0",
-  "description": "A short description of your package",
-  "repository": "https://github.com/atom/save-session",
+  "description": "An Atom package to restore your session.",
+  "repository": "https://github.com/mpeterson2/save-session",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
