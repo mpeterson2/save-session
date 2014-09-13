@@ -9,6 +9,7 @@ module.exports =
     restoreFileTreeSize: true
     restoreOpenFiles: true
     restoreOpenFileContents: true
+    restoreCursor: true
     bufferSaveFile: atom.config.configDirPath + '/save-session-buffer.json'
 
   activate: (state) ->
@@ -57,6 +58,9 @@ module.exports =
   getShouldRestoreOpenFileContents: ->
     atom.config.get 'save-session.restoreOpenFileContents'
 
+  getShouldRestoreCursor: ->
+    atom.config.get 'save-session.restoreCursor'
+
   getActivePath: ->
     for tab in $('.tab-bar').children('li')
       if $(tab).hasClass('active')
@@ -84,6 +88,7 @@ module.exports =
       buffer.text = editor.buffer.cachedText
       buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
+      buffer.cursor = editor.getCursorBufferPosition()
 
       buffers.push buffer
 
@@ -103,6 +108,9 @@ module.exports =
       editor = atom.workspace.open(buffer.path, activatePane: buffer.active)
       .then (editor) =>
         buf = editor.buffer
+
+        if @getShouldRestoreCursor()
+          editor.setCursorBufferPosition(buffer.cursor)
 
         # Replace the text if needed
         if @getShouldRestoreOpenFileContents() and

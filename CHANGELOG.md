@@ -1,3 +1,6 @@
+## 0.2.2 - Cursor Position
+* The cursor position is now saved on edits
+
 ## 0.2.2 - More settings
 * Users can specify what they want to save now.
 

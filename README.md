@@ -16,6 +16,7 @@ Atom is closed and relaunched.
  - The project currently being worked on
  - The files currently being worked on, whether they are saved to disk or not
  - The size of the window and file tree
+ - The position of the cursor
 
 ## Settings
 
@@ -23,6 +24,7 @@ Atom is closed and relaunched.
 These settings will control what the package saves.
 
  - `Buffer Save File` - The file to save your file info in so it can be restored.
+ - `Restore Cursor` - Whethor or not the cursor position should be restored.
  - `Restore File Tree Size` - Whether or not the file tree size will be restored.
  - `Restore Open File Contents` - Whether or not file contents will be
  automatically restored on load. This has no effect if `Restore Open Files` is
@@ -42,7 +44,7 @@ they will all be set by the package when a related event happens.
 
 ## How it works
 
-Except for files, Save Session uses Atom's settings to save its data. If you
+Except for file data, Save Session uses Atom's settings to save its data. If you
 look at your settings for Save Session, you will see it all there.
 
 Files are saved in as json on a file. By default, this file is stored
