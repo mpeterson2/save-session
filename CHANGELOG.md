@@ -1,3 +1,6 @@
+## 0.2.2 - More settings
+* Users can specify what they want to save now.
+
 ## 0.2.1 - Settings
 * Users can specify their buffer save file.
 

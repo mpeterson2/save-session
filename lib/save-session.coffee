@@ -4,6 +4,11 @@ fs = require 'fs'
 module.exports =
 
   configDefaults:
+    restoreProject: true
+    restoreWindow: true
+    restoreFileTreeSize: true
+    restoreOpenFiles: true
+    restoreOpenFileContents: true
     bufferSaveFile: atom.config.configDirPath + '/save-session-buffer.json'
 
   activate: (state) ->
@@ -20,22 +25,37 @@ module.exports =
     if buffersStr?
       buffers = JSON.parse(buffersStr)
 
-    if x? and y? and width? and height?
+    if @getShouldRestoreWindow() and x? and y? and width? and height?
       @restoreDimensions(x, y, width, height)
 
-    if treeSize?
+    if @getShouldRestoreFileTreeSize() and treeSize?
       @restoreTreeSize(treeSize)
 
-    if buffers?
+    if @getShouldRestoreOpenFiles() and buffers?
       @restoreBuffers(buffers)
 
-    if project? and not atom.project.getPath()?
+    if @getShouldRestoreProject() and project? and not atom.project.getPath()?
       @restoreProject(project)
 
     @addListeners()
 
   getBufferSaveFile: ->
     atom.config.get 'save-session.bufferSaveFile'
+
+  getShouldRestoreProject: ->
+    atom.config.get 'save-session.restoreProject'
+
+  getShouldRestoreWindow: ->
+    atom.config.get 'save-session.restoreWindow'
+
+  getShouldRestoreFileTreeSize: ->
+    atom.config.get 'save-session.restoreFileTreeSize'
+
+  getShouldRestoreOpenFiles: ->
+    atom.config.get 'save-session.restoreOpenFiles'
+
+  getShouldRestoreOpenFileContents: ->
+    atom.config.get 'save-session.restoreOpenFileContents'
 
   getActivePath: ->
     for tab in $('.tab-bar').children('li')
@@ -81,12 +101,13 @@ module.exports =
   openBuffer: (buffer) ->
     # activatePane does not work yet :(
       editor = atom.workspace.open(buffer.path, activatePane: buffer.active)
-        .then (editor) ->
-          buf = editor.buffer
+      .then (editor) =>
+        buf = editor.buffer
 
-          # Replace the text if needed
-          if buf.getText() != buffer.text and buf.getText() == buffer.diskText
-             buf.setText(buffer.text)
+        # Replace the text if needed
+        if @getShouldRestoreOpenFileContents() and
+          buf.getText() != buffer.text and buf.getText() == buffer.diskText
+            buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
     atom.setWindowDimensions

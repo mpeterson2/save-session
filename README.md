@@ -17,6 +17,29 @@ Atom is closed and relaunched.
  - The files currently being worked on, whether they are saved to disk or not
  - The size of the window and file tree
 
+## Settings
+
+### Save settings
+These settings will control what the package saves.
+
+ - `Buffer Save File` - The file to save your file info in so it can be restored.
+ - `Restore File Tree Size` - Whether or not the file tree size will be restored.
+ - `Restore Open File Contents` - Whether or not file contents will be
+ automatically restored on load. This has no effect if `Restore Open Files` is
+ disabled.
+ - `Restore Open Files` - Whether or not files will be reopened.
+ - `Restore Project` - Whether or not the project will be reopened.
+ - `Restore Window` - Whether or not the window size/positions will be saved.
+
+### Other settings
+These settings are used by the package to restore data. You can change them, but
+they will all be set by the package when a related event happens.
+
+ - `Height` - The height of the editor
+ - `Width` - The width of the editor
+ - `X` - The x position of the editor
+ - `Y` - The y position of the editor
+
 ## How it works
 
 Except for files, Save Session uses Atom's settings to save its data. If you
