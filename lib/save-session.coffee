@@ -82,7 +82,7 @@ module.exports =
       buffer = {}
       buffer.diskText = editor.buffer.cachedDiskContents
       buffer.text = editor.buffer.cachedText
-      buffer.active = activePath == editor.getPath()
+      buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
 
       buffers.push buffer
@@ -106,7 +106,7 @@ module.exports =
 
         # Replace the text if needed
         if @getShouldRestoreOpenFileContents() and
-          buf.getText() != buffer.text and buf.getText() == buffer.diskText
+          buf.getText() is not buffer.text and buf.getText() is buffer.diskText
             buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
