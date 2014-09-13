@@ -1,4 +1,7 @@
-## 0.2.2 - Cursor Position
+## 0.2.4 - Minor edits
+* Just readme edits and deleting some unused stuff.
+
+## 0.2.3 - Cursor Position
 * The cursor position is now saved on edits
 
 ## 0.2.2 - More settings
