@@ -10,6 +10,7 @@ module.exports =
     restoreOpenFiles: true
     restoreOpenFileContents: true
     restoreCursor: true
+    skipSavePrompt: true
     bufferSaveFile: atom.config.configDirPath + '/save-session-buffer.json'
 
   activate: (state) ->
@@ -38,6 +39,9 @@ module.exports =
     if @getShouldRestoreProject() and project? and not atom.project.getPath()?
       @restoreProject(project)
 
+    if @getShouldSkipSavePrompt()
+      @disableSavePrompt()
+
     @addListeners()
 
   getBufferSaveFile: ->
@@ -65,6 +69,9 @@ module.exports =
     for tab in $('.tab-bar').children('li')
       if $(tab).hasClass('active')
         return $(tab).children('.title').data('path')
+
+  getShouldSkipSavePrompt: ->
+    atom.config.get 'save-session.skipSavePrompt'
 
   saveDimensions: ->
     window = atom.getWindowDimensions()
@@ -114,7 +121,7 @@ module.exports =
 
         # Replace the text if needed
         if @getShouldRestoreOpenFileContents() and
-          buf.getText() is not buffer.text and buf.getText() is buffer.diskText
+          buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
             buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
@@ -138,3 +145,10 @@ module.exports =
       editor.onDidStopChanging =>
         @saveProject()
         @saveBuffers()
+
+  disableSavePrompt: ->
+    #Hack to override the promptToSaveItem method of Pane
+    #There doesn't appear to be a direct way to get to the Pane object
+    #with require(), unfortunately, so I have to result to this hack.
+    atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) ->
+      return true;
