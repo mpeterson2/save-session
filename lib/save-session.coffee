@@ -114,7 +114,7 @@ module.exports =
 
         # Replace the text if needed
         if @getShouldRestoreOpenFileContents() and
-          buf.getText() is not buffer.text and buf.getText() is buffer.diskText
+          buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
             buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
