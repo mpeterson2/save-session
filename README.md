@@ -20,8 +20,7 @@ Atom is closed and relaunched.
 
 ## Settings
 
-### Save settings
-These settings will control what the package saves.
+### User settings
 
  - `Buffer Save File` - The file to save your file info in so it can be restored.
  - `Restore Cursor` - Whethor or not the cursor position should be restored.
@@ -32,6 +31,7 @@ These settings will control what the package saves.
  - `Restore Open Files` - Whether or not files will be reopened.
  - `Restore Project` - Whether or not the project will be reopened.
  - `Restore Window` - Whether or not the window size/positions will be saved.
+ - `Skip Save Prompt` - This will disable the save on exit prompt.
 
 ### Other settings
 These settings are used by the package to restore data. You can change them, but

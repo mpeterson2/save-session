@@ -1,3 +1,7 @@
+## 0.3.0 - Disabled save on exit
+* Skip Save Prompt will disable the save on exit prompt
+* Fixed some bugs
+
 ## 0.2.4 - Minor edits
 * Just readme edits and deleting some unused stuff.
 
