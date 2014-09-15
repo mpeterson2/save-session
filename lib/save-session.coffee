@@ -122,17 +122,17 @@ module.exports =
 
   openBuffer: (buffer) ->
     # activatePane does not work yet :(
-      editor = atom.workspace.open(buffer.path, activatePane: buffer.active)
-      .then (editor) =>
-        buf = editor.buffer
+    editor = atom.workspace.saveSessionOpenFunc(buffer.path, activatePane: buffer.active)
+    .then (editor) =>
+      buf = editor.buffer
 
-        if @getShouldRestoreCursor()
-          editor.setCursorBufferPosition(buffer.cursor)
+      if @getShouldRestoreCursor()
+        editor.setCursorBufferPosition(buffer.cursor)
 
-        # Replace the text if needed
-        if @getShouldRestoreOpenFileContents() and
-          buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
-            buf.setText(buffer.text)
+      # Replace the text if needed
+      if @getShouldRestoreOpenFileContents() and
+        buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
+          buf.setText(buffer.text)
 
   restoreDimensions: (x, y, width, height, treeSize) ->
     atom.setWindowDimensions
@@ -149,26 +149,22 @@ module.exports =
     atom.project.setPath(path)
 
   disableSavePrompt: ->
-    #Hack to override the promptToSaveItem method of Pane
-    #There doesn't appear to be a direct way to get to the Pane object
-    #with require(), unfortunately, so I have to result to this hack.
+    # Hack to override the promptToSaveItem method of Pane
+    # There doesn't appear to be a direct way to get to the Pane object
+    # with require(), unfortunately, so I have to result to this hack.
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) ->
       return true;
 
   enableSavePrompt: ->
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = @defaultSavePrompt
 
+  # Sets the default open function to a function that sets the default open
+  # function to the default open function... Yay!
   closeFirstBuffer: ->
-    # Also pretty hacky. We listen for the item to be added, then remove it and
-    # destroy the listener. Unfortunately, this causes an error in atom, but it
-    # still functions fine.
-    removeFunc = (e, item) =>
-      if item.path is undefined and item.buffer.cachedDiskContents is ''
-        atom.workspace.activePane.destroyItem item
-        console.log "This error is caused by Save Session removing the new file on open."
-        atom.workspaceView.off 'pane:item-added', removeFunc
-
-    atom.workspaceView.on 'pane:item-added', removeFunc
+    atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
+    removeFunc = (path) =>
+      atom.workspace.constructor.prototype.open = atom.workspace.constructor.prototype.saveSessionOpenFunc
+    atom.workspace.constructor.prototype.open = removeFunc
 
   addListeners: ->
     # When the window resizes

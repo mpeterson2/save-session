@@ -1,3 +1,7 @@
+## 0.5.2 - Bug fix
+* Should no longer have issues with restoring unsaved files with disabling the
+new file on open.
+
 ## 0.5.1 - Safer closing of the new file buffer
 * There are now checks to be sure that the file is empty and has no path before
 it is closed.
