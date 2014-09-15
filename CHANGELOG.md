@@ -1,3 +1,7 @@
+## 0.4.0 - Removing the new file buffer
+* The new file is automatically closed when Atom starts if there were previous
+files open.
+
 ## 0.3.2 - Bug fixes
 * Fixed a bug where closing a buffer was not saved.
 

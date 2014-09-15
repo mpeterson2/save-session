@@ -4,6 +4,7 @@ fs = require 'fs'
 module.exports =
 
   configDefaults:
+    disableNewFileOnOpen: true
     restoreProject: true
     restoreWindow: true
     restoreFileTreeSize: true
@@ -29,6 +30,10 @@ module.exports =
     if buffersStr?
       buffers = JSON.parse(buffersStr)
 
+    if @getShouldDisableNewBufferOnOpen() and @getShouldRestoreOpenFiles() and
+      buffers? and buffers.length > 0
+        @closeFirstBuffer()
+
     if @getShouldRestoreWindow() and x? and y? and width? and height?
       @restoreDimensions(x, y, width, height)
 
@@ -45,6 +50,9 @@ module.exports =
       @disableSavePrompt()
 
     @addListeners()
+
+  getShouldDisableNewBufferOnOpen: ->
+    atom.config.get 'save-session.disableNewFileOnOpen'
 
   getBufferSaveFile: ->
     atom.config.get 'save-session.bufferSaveFile'
@@ -149,6 +157,18 @@ module.exports =
 
   enableSavePrompt: ->
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = @defaultSavePrompt
+
+  closeFirstBuffer: ->
+    # Also pretty hacky. We listen for the item to be added, then remove it and
+    # destroy the listener. Unfortunately, this causes an error in atom, but it
+    # still functions fine.
+    removeFunc = =>
+      firstItem = atom.workspace.activePane.items[0]
+      atom.workspace.activePane.destroyItem firstItem
+      console.log "This error is caused by Save Session removing the new file on open."
+      atom.workspaceView.off 'pane:item-added', removeFunc
+
+    atom.workspaceView.on 'pane:item-added', removeFunc
 
   addListeners: ->
     # When the window resizes

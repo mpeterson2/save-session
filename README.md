@@ -22,8 +22,10 @@ Atom is closed and relaunched.
 
 ### User settings
 
+ - `Disable New File On Open` - Whether or not to auto close the new file auto
+ opened by Atom if other files will be restored.
  - `Buffer Save File` - The file to save your file info in so it can be restored.
- - `Restore Cursor` - Whethor or not the cursor position should be restored.
+ - `Restore Cursor` - Whether or not the cursor position should be restored.
  - `Restore File Tree Size` - Whether or not the file tree size will be restored.
  - `Restore Open File Contents` - Whether or not file contents will be
  automatically restored on load. This has no effect if `Restore Open Files` is
