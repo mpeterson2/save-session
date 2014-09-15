@@ -20,6 +20,7 @@ module.exports =
     height = atom.config.get('save-session.height')
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
+    @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
 
     if fs.existsSync(@getBufferSaveFile())
       buffersStr = fs.readFileSync(@getBufferSaveFile(), encoding: 'utf8')
@@ -43,6 +44,9 @@ module.exports =
       @disableSavePrompt()
 
     @addListeners()
+
+    atom.workspaceView.command 'save-session:test', =>
+      console.log(@defaultSavePrompt)
 
   getBufferSaveFile: ->
     atom.config.get 'save-session.bufferSaveFile'
@@ -138,17 +142,29 @@ module.exports =
   restoreProject: (path) ->
     atom.project.setPath(path)
 
-  addListeners: ->
-    $(window).on 'resize', => @saveDimensions()
-
-    atom.workspace.observeTextEditors (editor) =>
-      editor.onDidStopChanging =>
-        @saveProject()
-        @saveBuffers()
-
   disableSavePrompt: ->
     #Hack to override the promptToSaveItem method of Pane
     #There doesn't appear to be a direct way to get to the Pane object
     #with require(), unfortunately, so I have to result to this hack.
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) ->
       return true;
+
+  enableSavePrompt: ->
+    atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = @defaultSavePrompt
+
+  addListeners: ->
+    # When the window resizes
+    $(window).on 'resize', => @saveDimensions()
+
+    # When files are edited
+    atom.workspace.observeTextEditors (editor) =>
+      editor.onDidStopChanging =>
+        @saveProject()
+        @saveBuffers()
+
+    # When changing Skip Save Prompt
+    atom.config.observe 'save-session.skipSavePrompt', (val) =>
+      if val
+        @disableSavePrompt()
+      else
+        @enableSavePrompt()

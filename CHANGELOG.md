@@ -1,3 +1,7 @@
+## 0.3.1 - Bug fixes
+* Fixed a bug where you had to reopen an Atom window for the Skip Save Prompt setting
+to actually save.
+
 ## 0.3.0 - Disabled save on exit
 * Skip Save Prompt will disable the save on exit prompt
 * Fixed some bugs
