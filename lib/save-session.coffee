@@ -21,6 +21,7 @@ module.exports =
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
     @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
+    @onExit = false;
 
     if fs.existsSync(@getBufferSaveFile())
       buffersStr = fs.readFileSync(@getBufferSaveFile(), encoding: 'utf8')
@@ -44,9 +45,6 @@ module.exports =
       @disableSavePrompt()
 
     @addListeners()
-
-    atom.workspaceView.command 'save-session:test', =>
-      console.log(@defaultSavePrompt)
 
   getBufferSaveFile: ->
     atom.config.get 'save-session.bufferSaveFile'
@@ -162,9 +160,20 @@ module.exports =
         @saveProject()
         @saveBuffers()
 
+    # When closing an editor
+    atom.workspace.observePanes (pane) =>
+      pane.onDidRemoveItem =>
+        if not @onExit
+          @saveProject()
+          @saveBuffers()
+
     # When changing Skip Save Prompt
     atom.config.observe 'save-session.skipSavePrompt', (val) =>
       if val
         @disableSavePrompt()
       else
         @enableSavePrompt()
+
+    # Before exit
+    $(window).on 'beforeunload', =>
+      @onExit = true

@@ -1,3 +1,6 @@
+## 0.3.2 - Bug fixes
+* Fixed a bug where closing a buffer was not saved.
+
 ## 0.3.1 - Bug fixes
 * Fixed a bug where you had to reopen an Atom window for the Skip Save Prompt setting
 to actually save.
