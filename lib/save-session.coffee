@@ -162,11 +162,11 @@ module.exports =
     # Also pretty hacky. We listen for the item to be added, then remove it and
     # destroy the listener. Unfortunately, this causes an error in atom, but it
     # still functions fine.
-    removeFunc = =>
-      firstItem = atom.workspace.activePane.items[0]
-      atom.workspace.activePane.destroyItem firstItem
-      console.log "This error is caused by Save Session removing the new file on open."
-      atom.workspaceView.off 'pane:item-added', removeFunc
+    removeFunc = (e, item) =>
+      if item.path is undefined and item.buffer.cachedDiskContents is ''
+        atom.workspace.activePane.destroyItem item
+        console.log "This error is caused by Save Session removing the new file on open."
+        atom.workspaceView.off 'pane:item-added', removeFunc
 
     atom.workspaceView.on 'pane:item-added', removeFunc
 

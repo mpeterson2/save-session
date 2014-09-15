@@ -1,3 +1,7 @@
+## 0.5.1 - Safer closing of the new file buffer
+* There are now checks to be sure that the file is empty and has no path before
+it is closed.
+
 ## 0.5.0 - Changed saving the project
 * The project is now saved when the window gets focus instead of with file edits.
 
