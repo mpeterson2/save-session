@@ -1,3 +1,6 @@
+## 0.5.0 - Changed saving the project
+* The project is now saved when the window gets focus instead of with file edits.
+
 ## 0.4.0 - Removing the new file buffer
 * The new file is automatically closed when Atom starts if there were previous
 files open.

@@ -177,14 +177,15 @@ module.exports =
     # When files are edited
     atom.workspace.observeTextEditors (editor) =>
       editor.onDidStopChanging =>
-        @saveProject()
         @saveBuffers()
+
+    $(window).on 'focus', (event) =>
+      @saveProject()
 
     # When closing an editor
     atom.workspace.observePanes (pane) =>
       pane.onDidRemoveItem =>
         if not @onExit
-          @saveProject()
           @saveBuffers()
 
     # When changing Skip Save Prompt
