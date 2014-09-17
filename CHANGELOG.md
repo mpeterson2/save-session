@@ -1,3 +1,6 @@
+## 0.5.4 - Bug fix
+* Fixed an error thrown when splitting panes.
+
 ## 0.5.3 - Bug fix
 * Disabling the disable new file on open setting should work now.
 

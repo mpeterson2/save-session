@@ -106,7 +106,8 @@ module.exports =
       buffer.text = editor.buffer.cachedText
       buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
-      buffer.cursor = editor.getCursorBufferPosition()
+      if editor.cursors.length > 0
+        buffer.cursor = editor.getCursorBufferPosition()
 
       buffers.push buffer
 
