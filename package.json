@@ -1,7 +1,7 @@
 {
   "name": "save-session",
   "main": "./lib/save-session",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "An Atom package to restore your session.",
   "repository": {
     "type": "git",
