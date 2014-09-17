@@ -21,6 +21,7 @@ module.exports =
     height = atom.config.get('save-session.height')
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
+    atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
     @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
     @onExit = false;
 
@@ -161,7 +162,6 @@ module.exports =
   # Sets the default open function to a function that sets the default open
   # function to the default open function... Yay!
   closeFirstBuffer: ->
-    atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
     removeFunc = (path) =>
       atom.workspace.constructor.prototype.open = atom.workspace.constructor.prototype.saveSessionOpenFunc
     atom.workspace.constructor.prototype.open = removeFunc

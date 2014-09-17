@@ -1,3 +1,6 @@
+## 0.5.3 - Bug fix
+* Disabling the disable new file on open setting should work now.
+
 ## 0.5.2 - Bug fix
 * Should no longer have issues with restoring unsaved files with disabling the
 new file on open.
