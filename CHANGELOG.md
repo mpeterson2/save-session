@@ -1,3 +1,5 @@
+## 0.7.1 - Updated readme
+
 ## 0.7.0 - Restoring files per project
 * Added a setting that allows files to be restored per project instead of
 globally.
