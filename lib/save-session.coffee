@@ -186,12 +186,13 @@ module.exports =
     $(window).on 'focus', (event) =>
       @saveProject()
 
-    # When closing an editor
     atom.workspace.observePanes (pane) =>
+      # When closing an editor
       pane.onDidRemoveItem =>
         if not @onExit
           @saveBuffers()
 
+      # Before closing an editor
       pane.onWillDestroyItem (event) =>
         if @getShouldSkipSavePrompt()
           @enableSavePromptTemp()
