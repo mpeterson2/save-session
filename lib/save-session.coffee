@@ -21,9 +21,8 @@ module.exports =
     height = atom.config.get('save-session.height')
     treeSize = atom.config.get('save-session.tree size')
     project = atom.config.get('save-session.project')
-    atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
     @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
-    @onExit = false;
+    @onExit = false
 
     if fs.existsSync(@getBufferSaveFile())
       buffersStr = fs.readFileSync(@getBufferSaveFile(), encoding: 'utf8')
@@ -46,9 +45,6 @@ module.exports =
 
     if @getShouldRestoreProject() and project? and not atom.project.getPath()?
       @restoreProject(project)
-
-    if @getShouldSkipSavePrompt()
-      @disableSavePrompt()
 
     @addListeners()
 
@@ -123,8 +119,12 @@ module.exports =
 
 
   openBuffer: (buffer) ->
-    editor = atom.workspace.saveSessionOpenFunc(buffer.path)
-    .then (editor) =>
+    if atom.workspace.saveSessionOpenFunc?
+      promise = atom.workspace.saveSessionOpenFunc(buffer.path)
+    else
+      promise = atom.workspace.open(buffer.path)
+
+    promise.then (editor) =>
       buf = editor.buffer
 
       if @getShouldRestoreCursor()
@@ -154,14 +154,22 @@ module.exports =
     # There doesn't appear to be a direct way to get to the Pane object
     # with require(), unfortunately, so I have to result to this hack.
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) ->
-      return true;
+      return true
 
   enableSavePrompt: ->
-    atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = @defaultSavePrompt
+    atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) =>
+      @defaultSavePrompt(item)
+
+  enableSavePromptTemp: ->
+    atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) =>
+      save = @defaultSavePrompt(item)
+      @disableSavePrompt()
+      save
 
   # Sets the default open function to a function that sets the default open
   # function to the default open function... Yay!
   closeFirstBuffer: ->
+    atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
     removeFunc = (path) =>
       atom.workspace.constructor.prototype.open = atom.workspace.constructor.prototype.saveSessionOpenFunc
     atom.workspace.constructor.prototype.open = removeFunc
@@ -183,6 +191,10 @@ module.exports =
       pane.onDidRemoveItem =>
         if not @onExit
           @saveBuffers()
+
+      pane.onWillDestroyItem (event) =>
+        if @getShouldSkipSavePrompt()
+          @enableSavePromptTemp()
 
     # When changing Skip Save Prompt
     atom.config.observe 'save-session.skipSavePrompt', (val) =>

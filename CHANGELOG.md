@@ -1,5 +1,6 @@
-## 0.5.4 -
+## 0.5.5 -
 * Removed option when opening files since it didn't do what I expected :(.
+* Enabled save on close prompt for closing a single file at a time.
 
 ## 0.5.4 - Bug fix
 * Fixed an error thrown when splitting panes.
