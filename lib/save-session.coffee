@@ -1,5 +1,6 @@
 {$} = require 'atom'
 fs = require 'fs'
+mkdirp = require 'mkdirp'
 
 module.exports =
 
@@ -9,11 +10,12 @@ module.exports =
     restoreProject: true
     restoreWindow: true
     restoreFileTreeSize: true
+    restoreOpenFilesPerProject: true
     restoreOpenFiles: true
     restoreOpenFileContents: true
     restoreCursor: true
     skipSavePrompt: true
-    bufferSaveFile: atom.config.configDirPath + '/save-session-buffer.json'
+    dataSaveFolder: atom.packages.getPackageDirPaths() + '/save-session/projects'
 
   activate: (state) ->
     x = atom.config.get('save-session.x')
@@ -25,8 +27,12 @@ module.exports =
     @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
     @onExit = false
 
-    if fs.existsSync(@getBufferSaveFile())
-      buffersStr = fs.readFileSync(@getBufferSaveFile(), encoding: 'utf8')
+    if @getShouldRestoreProject() and project? and not atom.project.getPath()?
+      @restoreProject(project)
+
+    if fs.existsSync(@getSaveFile())
+      buffersStr = fs.readFileSync(@getSaveFile(), encoding: 'utf8')
+    else
     buffers = null
     if buffersStr?
       buffers = JSON.parse(buffersStr)
@@ -47,9 +53,6 @@ module.exports =
     if @getShouldRestoreOpenFiles() and buffers?
       @restoreBuffers(buffers)
 
-    if @getShouldRestoreProject() and project? and not atom.project.getPath()?
-      @restoreProject(project)
-
     @addListeners()
 
   getShouldDisableNewBufferOnOpen: ->
@@ -58,8 +61,18 @@ module.exports =
   getShouldDisableNewBufferOnOpenAlways: ->
     atom.config.get 'save-session.disableNewFileOnOpenAlways'
 
-  getBufferSaveFile: ->
-    atom.config.get 'save-session.bufferSaveFile'
+  getSaveFile: ->
+    folder = @getSaveFolder()
+    if @getShouldRestoreOpenFilesPerProject()
+      return folder + '/' + atom.project.path + '/' + 'project.json'
+    else
+      return folder + '/undefined/project.json'
+
+  getShouldRestoreOpenFilesPerProject: ->
+    atom.config.get 'save-session.restoreOpenFilesPerProject'
+
+  getSaveFolder: ->
+    atom.config.get 'save-session.dataSaveFolder'
 
   getShouldRestoreProject: ->
     atom.config.get 'save-session.restoreProject'
@@ -114,7 +127,11 @@ module.exports =
 
       buffers.push buffer
 
-    fs.writeFile(@getBufferSaveFile(), JSON.stringify(buffers))
+    file = @getSaveFile()
+    folder = file.substring(0, file.lastIndexOf('/'))
+    mkdirp folder, (err) =>
+      console.log folder
+      fs.writeFile(@getSaveFile(), JSON.stringify(buffers))
 
   saveTimer: ->
     @saveProject()

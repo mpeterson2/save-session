@@ -1,3 +1,7 @@
+## 0.7.0 - Restoring files per project
+* Added a setting that allows files to be restored per project instead of
+globally.
+
 ## 0.6.0 - Always open without default file
 * Added the option to never open the file that Atom opens automatically on
 startup. Default is false.
