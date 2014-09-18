@@ -123,8 +123,7 @@ module.exports =
 
 
   openBuffer: (buffer) ->
-    # activatePane does not work yet :(
-    editor = atom.workspace.saveSessionOpenFunc(buffer.path, activatePane: buffer.active)
+    editor = atom.workspace.saveSessionOpenFunc(buffer.path)
     .then (editor) =>
       buf = editor.buffer
 
