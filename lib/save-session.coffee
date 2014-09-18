@@ -5,6 +5,7 @@ module.exports =
 
   configDefaults:
     disableNewFileOnOpen: true
+    disableNewFileOnOpenAlways: false
     restoreProject: true
     restoreWindow: true
     restoreFileTreeSize: true
@@ -30,8 +31,11 @@ module.exports =
     if buffersStr?
       buffers = JSON.parse(buffersStr)
 
-    if @getShouldDisableNewBufferOnOpen() and @getShouldRestoreOpenFiles() and
-      buffers? and buffers.length > 0
+    # Disable the buffer that opens by default.
+    if @getShouldDisableNewBufferOnOpen() and
+      (@getShouldDisableNewBufferOnOpenAlways() or
+      (@getShouldRestoreOpenFiles() and
+      buffers? and buffers.length > 0))
         @closeFirstBuffer()
 
     if @getShouldRestoreWindow() and x? and y? and width? and height?
@@ -50,6 +54,9 @@ module.exports =
 
   getShouldDisableNewBufferOnOpen: ->
     atom.config.get 'save-session.disableNewFileOnOpen'
+
+  getShouldDisableNewBufferOnOpenAlways: ->
+    atom.config.get 'save-session.disableNewFileOnOpenAlways'
 
   getBufferSaveFile: ->
     atom.config.get 'save-session.bufferSaveFile'

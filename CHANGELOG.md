@@ -1,4 +1,8 @@
-## 0.5.5 -
+## 0.6.0 - Always open without default file
+* Added the option to never open the file that Atom opens automatically on
+startup. Default is false.
+
+## 0.5.5 - Small fixes
 * Removed option when opening files since it didn't do what I expected :(.
 * Enabled save on close prompt for closing a single file at a time.
 
