@@ -1,3 +1,6 @@
+## 0.7.2 Fixed Windows Bug
+* Fixed an issue with Windows using `\` for file separators over `/`
+
 ## 0.7.1 - Updated readme
 
 ## 0.7.0 - Restoring files per project

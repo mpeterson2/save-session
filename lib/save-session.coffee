@@ -15,9 +15,11 @@ module.exports =
     restoreOpenFileContents: true
     restoreCursor: true
     skipSavePrompt: true
-    dataSaveFolder: atom.packages.getPackageDirPaths() + '/save-session/projects'
 
   activate: (state) ->
+    if not @getSaveFolder()?
+      atom.config.set('save-session.dataSaveFolder', atom.packages.getPackageDirPaths() + @getPathSeparator() + 'save-session' + @getPathSeparator() + 'projects')
+
     x = atom.config.get('save-session.x')
     y = atom.config.get('save-session.y')
     width = atom.config.get('save-session.width')
@@ -64,9 +66,9 @@ module.exports =
   getSaveFile: ->
     folder = @getSaveFolder()
     if @getShouldRestoreOpenFilesPerProject()
-      return folder + '/' + atom.project.path + '/' + 'project.json'
+      return folder + @getPathSeparator() + atom.project.path + @getPathSeparator() + 'project.json'
     else
-      return folder + '/undefined/project.json'
+      return folder + @getPathSeparator() + 'undefined' + @getPathSeparator() + 'project.json'
 
   getShouldRestoreOpenFilesPerProject: ->
     atom.config.get 'save-session.restoreOpenFilesPerProject'
@@ -96,6 +98,11 @@ module.exports =
     for tab in $('.tab-bar').children('li')
       if $(tab).hasClass('active')
         return $(tab).children('.title').data('path')
+
+  getPathSeparator: ->
+    if process.platform is 'win32'
+      return '\\'
+    return '/'
 
   getShouldSkipSavePrompt: ->
     atom.config.get 'save-session.skipSavePrompt'
@@ -128,9 +135,8 @@ module.exports =
       buffers.push buffer
 
     file = @getSaveFile()
-    folder = file.substring(0, file.lastIndexOf('/'))
+    folder = file.substring(0, file.lastIndexOf(@getPathSeparator()))
     mkdirp folder, (err) =>
-      console.log folder
       fs.writeFile(@getSaveFile(), JSON.stringify(buffers))
 
   saveTimer: ->
