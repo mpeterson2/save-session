@@ -6,9 +6,6 @@ background so you don't have to worry as much about losing an important file.
 I liked how [Sublime Text](http://www.sublimetext.com/) does this, so I wanted
 to recreate it for Atom
 
-Here is a really high quality preview of a an unsaved file being reloaded when
-Atom is closed and relaunched.
-
 ![preview](https://raw.githubusercontent.com/mpeterson2/save-session/master/preview.gif)
 
 ## What is saved

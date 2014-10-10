@@ -1,12 +1,13 @@
 {$} = require 'atom'
 fs = require 'fs'
 mkdirp = require 'mkdirp'
+config = require './config'
 
 module.exports =
 
   configDefaults:
     disableNewFileOnOpen: true
-    disableNewFileOnOpenAlways: false
+    disableNewFileOnOpenAlways: true
     restoreProject: true
     restoreWindow: true
     restoreFileTreeSize: true
@@ -17,108 +18,63 @@ module.exports =
     skipSavePrompt: true
 
   activate: (state) ->
-    if not @getSaveFolder()?
-      atom.config.set('save-session.dataSaveFolder', atom.packages.getPackageDirPaths() + @getPathSeparator() + 'save-session' + @getPathSeparator() + 'projects')
+    if not config.saveFolder()?
+      config.saveFolderDefault()
 
-    x = atom.config.get('save-session.x')
-    y = atom.config.get('save-session.y')
-    width = atom.config.get('save-session.width')
-    height = atom.config.get('save-session.height')
-    treeSize = atom.config.get('save-session.tree size')
-    project = atom.config.get('save-session.project')
+    x = config.x()
+    y = config.y()
+    width = config.width()
+    height = config.height()
+    treeSize = config.treeSize()
+    project = config.project()
     @defaultSavePrompt = atom.workspace.getActivePane().constructor.prototype.promptToSaveItem
     @onExit = false
 
-    if @getShouldRestoreProject() and project? and not atom.project.getPath()?
+    if config.restoreProject() and project? and not atom.project.getPath()?
       @restoreProject(project)
 
-    if fs.existsSync(@getSaveFile())
-      buffersStr = fs.readFileSync(@getSaveFile(), encoding: 'utf8')
+    if fs.existsSync(config.saveFile())
+      buffersStr = fs.readFileSync(config.saveFile(), encoding: 'utf8')
     else
     buffers = null
     if buffersStr?
       buffers = JSON.parse(buffersStr)
 
     # Disable the buffer that opens by default.
-    if @getShouldDisableNewBufferOnOpen() and
-      (@getShouldDisableNewBufferOnOpenAlways() or
-      (@getShouldRestoreOpenFiles() and
+    if config.disableNewBufferOnOpen() and
+      (config.disableNewBufferOnOpenAlways() or
+      (config.restoreOpenFiles() and
       buffers? and buffers.length > 0))
         @closeFirstBuffer()
 
-    if @getShouldRestoreWindow() and x? and y? and width? and height?
-      @restoreDimensions(x, y, width, height)
+    if config.restoreWindow() and x? and y? and width? and height?
+      @restoreDimensions x, y, width, height
 
-    if @getShouldRestoreFileTreeSize() and treeSize?
-      @restoreTreeSize(treeSize)
+    if config.restoreFileTreeSize() and treeSize?
+      @restoreTreeSize treeSize
 
-    if @getShouldRestoreOpenFiles() and buffers?
-      @restoreBuffers(buffers)
+    if config.restoreOpenFiles() and buffers?
+      @restoreBuffers buffers
 
     @addListeners()
-
-  getShouldDisableNewBufferOnOpen: ->
-    atom.config.get 'save-session.disableNewFileOnOpen'
-
-  getShouldDisableNewBufferOnOpenAlways: ->
-    atom.config.get 'save-session.disableNewFileOnOpenAlways'
-
-  getSaveFile: ->
-    folder = @getSaveFolder()
-    if @getShouldRestoreOpenFilesPerProject()
-      return folder + @getPathSeparator() + atom.project.path + @getPathSeparator() + 'project.json'
-    else
-      return folder + @getPathSeparator() + 'undefined' + @getPathSeparator() + 'project.json'
-
-  getShouldRestoreOpenFilesPerProject: ->
-    atom.config.get 'save-session.restoreOpenFilesPerProject'
-
-  getSaveFolder: ->
-    atom.config.get 'save-session.dataSaveFolder'
-
-  getShouldRestoreProject: ->
-    atom.config.get 'save-session.restoreProject'
-
-  getShouldRestoreWindow: ->
-    atom.config.get 'save-session.restoreWindow'
-
-  getShouldRestoreFileTreeSize: ->
-    atom.config.get 'save-session.restoreFileTreeSize'
-
-  getShouldRestoreOpenFiles: ->
-    atom.config.get 'save-session.restoreOpenFiles'
-
-  getShouldRestoreOpenFileContents: ->
-    atom.config.get 'save-session.restoreOpenFileContents'
-
-  getShouldRestoreCursor: ->
-    atom.config.get 'save-session.restoreCursor'
 
   getActivePath: ->
     for tab in $('.tab-bar').children('li')
       if $(tab).hasClass('active')
         return $(tab).children('.title').data('path')
 
-  getPathSeparator: ->
-    if process.platform is 'win32'
-      return '\\'
-    return '/'
-
-  getShouldSkipSavePrompt: ->
-    atom.config.get 'save-session.skipSavePrompt'
-
   saveDimensions: ->
     window = atom.getWindowDimensions()
     treeSize = $('.tree-view-resizer').width()
 
-    atom.config.set('save-session.x', window.x)
-    atom.config.set('save-session.y', window.y)
-    atom.config.set('save-session.width', window.width)
-    atom.config.set('save-session.height', window.height)
-    atom.config.set('save-session.tree size', treeSize)
+    config.x window.x
+    config.y window.y
+    config.width window.width
+    config.height window.height
+    config.treeSize treeSize
 
   saveProject: ->
-    atom.config.set('save-session.project', atom.project.getPath())
+    config.project atom.project.getPath()
 
   saveBuffers: ->
     buffers = []
@@ -134,10 +90,10 @@ module.exports =
 
       buffers.push buffer
 
-    file = @getSaveFile()
-    folder = file.substring(0, file.lastIndexOf(@getPathSeparator()))
+    file = config.saveFile()
+    folder = file.substring(0, file.lastIndexOf(config.pathSeparator()))
     mkdirp folder, (err) =>
-      fs.writeFile(@getSaveFile(), JSON.stringify(buffers))
+      fs.writeFile(config.saveFile(), JSON.stringify(buffers))
 
   saveTimer: ->
     @saveProject()
@@ -146,7 +102,6 @@ module.exports =
   restoreBuffers: (buffers) ->
     for buffer in buffers
       @openBuffer(buffer)
-
 
   openBuffer: (buffer) ->
     if atom.workspace.saveSessionOpenFunc?
@@ -157,11 +112,11 @@ module.exports =
     promise.then (editor) =>
       buf = editor.buffer
 
-      if @getShouldRestoreCursor()
+      if config.restoreCursor()
         editor.setCursorBufferPosition(buffer.cursor)
 
       # Replace the text if needed
-      if @getShouldRestoreOpenFileContents() and
+      if config.restoreOpenFileContents() and
         buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
           buf.setText(buffer.text)
 
@@ -177,7 +132,7 @@ module.exports =
       $('.tree-view-resizer').width(size)
 
   restoreProject: (path) ->
-    atom.project.setPath(path)
+    atom.project.setPath path
 
   disableSavePrompt: ->
     # Hack to override the promptToSaveItem method of Pane
@@ -192,7 +147,7 @@ module.exports =
 
   enableSavePromptTemp: ->
     atom.workspace.getActivePane().constructor.prototype.promptToSaveItem = (item) =>
-      save = @defaultSavePrompt(item)
+      save = @defaultSavePrompt item
       @disableSavePrompt()
       save
 
@@ -224,7 +179,7 @@ module.exports =
 
       # Before closing an editor
       pane.onWillDestroyItem (event) =>
-        if @getShouldSkipSavePrompt()
+        if config.skipSavePrompt()
           @enableSavePromptTemp()
 
     # When changing Skip Save Prompt

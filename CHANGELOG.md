@@ -1,3 +1,7 @@
+## 0.7.3 Refactor and new preview gif
+*Refactored the code by moving config stuff to its own file
+*Updated the preview gif to show some newer features
+
 ## 0.7.2 Fixed Windows Bug
 * Fixed an issue with Windows using `\` for file separators over `/`
 
