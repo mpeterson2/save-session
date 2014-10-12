@@ -2,11 +2,8 @@ Config = require './config'
 
 module.exports =
 
-  activate: (buffers) ->
-    if Config.disableNewBufferOnOpen() and
-      (Config.disableNewBufferOnOpenAlways() or
-      (Config.restoreOpenFiles() and
-      buffers? and buffers.length > 0))
+  activate: ->
+    if Config.disableNewBufferOnOpen()
         @close()
 
   # Sets the default open function to a function that sets the default open

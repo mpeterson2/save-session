@@ -20,9 +20,7 @@ to recreate it for Atom
 ### User settings
 
  - `Disable New File On Open` - Whether or not to auto close the new file auto
- opened by Atom if other files will be restored.
- - `Disable New File On Open Always` - Will never show the new file that Atom
- opens, even if other files are not going to be restored.
+ opened by Atom.
  - `Data Save Folder` - The root folder to save the session data in.
  - `Restore Cursor` - Whether or not the cursor position should be restored.
  - `Restore File Tree Size` - Whether or not the file tree size will be restored.

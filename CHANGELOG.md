@@ -1,3 +1,8 @@
+## 0.8.0 Files open asynchronously, removed `Disable New File On Open Always`
+* Files are now opened asynchronously, which should help the initial load time
+* The `Disable New File On Open Always` setting has been removed, and is now the
+way `Disable New File On Open` works.
+
 ## 0.7.4 Big refactor and save on exit fix
 * Moved code to separate files to clean up the main file.
 * Fixed an issue where having save on exit enabled and canceling the exit after

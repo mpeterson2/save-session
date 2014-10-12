@@ -11,7 +11,6 @@ module.exports =
 
   configDefaults:
     disableNewFileOnOpen: true
-    disableNewFileOnOpenAlways: true
     restoreProject: true
     restoreWindow: true
     restoreFileTreeSize: true
@@ -26,17 +25,17 @@ module.exports =
     if not Config.saveFolder()?
       Config.saveFolderDefault()
 
-    # Activate Everything
+    # Activate everything
     Project.activate()
     Dimensions.activate()
     SavePrompt.activate()
+    FirstBuffer.activate()
 
-    if Fs.existsSync(Config.saveFile())
-      buffersStr = Fs.readFileSync(Config.saveFile(), encoding: 'utf8')
-    else
-      buffers = null
-
-    if buffersStr?
-      buffers = JSON.parse(buffersStr)
-      FirstBuffer.activate(buffers)
-      Files.activate(buffers)
+    # Activate files
+    Fs.exists Config.saveFile(), (exists) =>
+      if exists
+        Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
+          buffers = JSON.parse(str)
+          Files.activate(buffers)
+      else
+        Files.activate([])
