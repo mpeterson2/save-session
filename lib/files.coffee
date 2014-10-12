@@ -60,11 +60,5 @@ module.exports =
       editor.onDidStopChanging =>
         @save()
 
-    # When closing an editor
-    atom.workspace.observePanes (pane) =>
-      pane.onDidRemoveItem =>
-        if not @onExit
-          @save()
-
-    $(window).on 'beforeunload', =>
-      @onExit = true
+      editor.onDidDestroy =>
+        @save()

@@ -1,5 +1,7 @@
-## 0.7.4 Big refactor
+## 0.7.4 Big refactor and save on exit fix
 * Moved code to separate files to clean up the main file.
+* Fixed an issue where having save on exit enabled and canceling the exit after
+being prompted to save would still exit Atom.
 
 ## 0.7.3 Refactor and new preview gif
 * Refactored the code by moving config stuff to its own file
