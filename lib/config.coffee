@@ -55,8 +55,8 @@ module.exports =
     @config 'treeSize', val
 
   #Helpers
-  SaveFolderDefault: ->
-    @saveFolder(atom.packages.getPackageDirPaths() + config.pathSeparator() + 'save-session' + config.pathSeparator() + 'projects')
+  saveFolderDefault: ->
+    @saveFolder(atom.packages.getPackageDirPaths() + @pathSeparator() + 'save-session' + @pathSeparator() + 'projects')
 
   pathSeparator: ->
     if process.platform is 'win32'

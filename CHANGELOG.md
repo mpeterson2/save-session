@@ -1,3 +1,5 @@
+## 0.8.1 Fixed a config issue
+
 ## 0.8.0 Files open asynchronously, removed `Disable New File On Open Always`
 * Files are now opened asynchronously, which should help the initial load time
 * The `Disable New File On Open Always` setting has been removed, and is now the
