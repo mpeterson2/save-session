@@ -8,6 +8,9 @@ module.exports =
     if Config.restoreProject() and project? and not atom.project.getPath()?
       @restore(project)
 
+    atom.workspaceView.preempt 'application:new-window', =>
+      Config.project(undefined, true)
+
     @addListeners()
 
   save: ->
