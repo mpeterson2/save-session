@@ -39,17 +39,17 @@ module.exports =
   project: (val, force) ->
     @config 'project', val, force
 
-  x: (val, force) ->
-    @config 'x', val, force
+  windowX: (val, force) ->
+    @config 'windowX', val, force
 
-  y: (val, force) ->
-    @config 'y', val, force
+  windowY: (val, force) ->
+    @config 'windowY', val, force
 
-  width: (val, force) ->
-    @config 'width', val, force
+  windowWidth: (val, force) ->
+    @config 'windowWidth', val, force
 
-  height: (val, force) ->
-    @config 'height', val, force
+  windowHeight: (val, force) ->
+    @config 'windowHeight', val, force
 
   treeSize: (val, force) ->
     @config 'treeSize', val, force

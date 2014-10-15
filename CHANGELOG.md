@@ -1,3 +1,5 @@
+## 0.8.3 Added descriptions to settings
+
 ## 0.8.2 Fixed an issue with opening new windows
 * Opening a new window (cmd+N) will no longer open the project you were just
 working on. It will open up the undefined project.

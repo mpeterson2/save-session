@@ -17,7 +17,8 @@ module.exports =
     Config.project atom.project.getPath()
 
   restore: (path) ->
-    atom.project.setPath path
+    if path isnt '0'
+      atom.project.setPath path
 
   addListeners: ->
     $(window).on 'focus', (event) =>

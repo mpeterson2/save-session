@@ -4,10 +4,10 @@ Config = require './config'
 module.exports =
 
   activate: ->
-    x = Config.x()
-    y = Config.y()
-    width = Config.width()
-    height = Config.height()
+    x = Config.windowX()
+    y = Config.windowY()
+    width = Config.windowWidth()
+    height = Config.windowHeight()
     treeSize = Config.treeSize()
 
     if Config.restoreWindow() and x? and y? and width? and height?
@@ -22,18 +22,18 @@ module.exports =
     window = atom.getWindowDimensions()
     treeSize = $('.tree-view-resizer').width()
 
-    Config.x window.x
-    Config.y window.y
-    Config.width window.width
-    Config.height window.height
+    Config.windowX window.x
+    Config.windowY window.y
+    Config.windowWidth window.width
+    Config.windowHeight window.height
     Config.treeSize treeSize
 
   restore: (x, y, width, height, treeSize) ->
-    atom.setWindowDimensions
-      'x': x
-      'y': y
-      'width': width
-      'height': height
+    if x > 0 and y > 0
+      atom.setPosition x, y
+
+    if width > 0 and height > 0
+      atom.setSize width, height
 
   restoreTree: (size) ->
     $(window).on 'ready', ->
