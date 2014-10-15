@@ -8,9 +8,6 @@ module.exports =
     if Config.restoreProject() and project? and not atom.project.getPath()?
       @restore(project)
 
-    atom.workspaceView.preempt 'application:new-window', =>
-      Config.project(undefined, true)
-
     @addListeners()
 
   save: ->
@@ -23,3 +20,11 @@ module.exports =
   addListeners: ->
     $(window).on 'focus', (event) =>
       @save()
+
+    atom.workspaceView.preempt 'application:new-window', =>
+      if not @openLast
+        Config.project(undefined, true)
+
+    atom.workspaceView.command 'save-session:reopen-project', =>
+      @openLast = true
+      atom.workspaceView.trigger 'application:new-window'

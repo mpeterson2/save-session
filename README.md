@@ -17,6 +17,10 @@ to recreate it for Atom
 
 ## Settings
 
+All settings are now documented using Atom's new settings API, so each setting
+has a description in your settings menu. If you haven't downloaded the package
+yet, this is what you can customize.
+
 ### User settings
 
  - `Disable New File On Open` - Whether or not to auto close the new file auto
@@ -44,17 +48,27 @@ they will all be set by the package when a related event happens.
  - `X` - The x position of the editor
  - `Y` - The y position of the editor
 
+### Commands
+
+There is currently only one command: `Save Session: Reopen Project`. This is
+mostly for me, or other developers. All it does is reopen the current project.
+This allows you to edit a package and reload it without exiting out of your
+current window or loosing the project in the new window. 
+
 ## How it works
 
-Except for file data, Save Session uses Atom's settings to save its data. If you
-look at your settings for Save Session, you will see it all there.
-
-Files are saved in as json on a file. By default, this file is stored
-at `<atom package dir>/save-session/<projectPath>/projects.json`, but this can
-be changed through the setting `Data Save Folder`.
+Save Session saves your data in two different ways. The first, is through Atom's
+settings API. Simple things like window dimensions are saved here, but nothing
+complicated. The second is on your file system. Things like files info is stored
+in a folder at `<atom package dir>/save-session/<project path>/projects.json` by
+default.
 
 ## Contributing
 
-Contributions are of course welcome. Feel free to submit issues if you see
-anything misbehaving. Pull requests are also welcome if you want to improve or
-change something.
+Feel free to submit issues if you see anything misbehaving. The more information
+you can give me about your issue the better. Things like operating system, Atom
+version, Save Session version, your Save Session config, other installed
+packages, and any error messages in the console that mention Save Session are
+helpful.
+
+Pull requests are also welcome if you want to improve or change something.

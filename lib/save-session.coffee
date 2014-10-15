@@ -87,7 +87,10 @@ module.exports =
     Fs.exists Config.saveFile(), (exists) =>
       if exists
         Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
-          buffers = JSON.parse(str)
-          Files.activate(buffers)
+          try
+            buffers = JSON.parse(str)
+            Files.activate(buffers)
+          catch
+            Files.activate([])
       else
         Files.activate([])
