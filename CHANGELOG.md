@@ -1,3 +1,6 @@
+## 0.8.7 Missed an @ symbol...
+* Should fix issue #20 now
+
 ## 0.8.6 Fixed an issue with Windows and saving per project
 * Fixes issue #20
 
