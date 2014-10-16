@@ -75,7 +75,7 @@ module.exports =
       return folder + @pathSeparator() + 'undefined' + @pathSeparator() + 'project.json'
 
   transformProjectPath: (path) ->
-    if @config.isWindows
+    if @isWindows
       colon = path.indexOf(':')
       if colon isnt -1
         return path.substring(0, colon) + path.substring(colon + 1, path.length)

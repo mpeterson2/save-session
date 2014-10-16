@@ -1,3 +1,5 @@
+## 0.8.8 Another syntax fix
+
 ## 0.8.7 Missed an @ symbol...
 * Should fix issue #20 now
 
