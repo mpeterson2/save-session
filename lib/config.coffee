@@ -59,16 +59,28 @@ module.exports =
     @saveFolder(atom.packages.getPackageDirPaths() + @pathSeparator() + 'save-session' + @pathSeparator() + 'projects')
 
   pathSeparator: ->
-    if process.platform is 'win32'
+    if @isWindows()
       return '\\'
     return '/'
+
+  isWindows: ->
+    return process.platform is 'win32'
 
   saveFile: ->
     folder = @saveFolder()
     if @restoreOpenFilesPerProject()
-      return folder + @pathSeparator() + atom.project.path + @pathSeparator() + 'project.json'
+      path = transfromProjectPath atom.project.path
+      return folder + @pathSeparator() + path + @pathSeparator() + 'project.json'
     else
       return folder + @pathSeparator() + 'undefined' + @pathSeparator() + 'project.json'
+
+  transformProjectPath: (path) ->
+    if @config.isWindows
+      colon = path.indexOf(':')
+      if colon isnt -1
+        return path.substring(0, colon) + path.substring(colon + 1, path.length)
+
+    return path
 
   config: (key, val, force) ->
     if val? or (force? and force)

@@ -1,3 +1,6 @@
+## 0.8.6 Fixed an issue with Windows and saving per project
+* Fixes issue #20
+
 ## 0.8.5 No changes...
 
 ## 0.8.4 Command for reloading project, Better handing of json errors
