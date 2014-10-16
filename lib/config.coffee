@@ -69,7 +69,7 @@ module.exports =
   saveFile: ->
     folder = @saveFolder()
     if @restoreOpenFilesPerProject()
-      path = @transfromProjectPath(atom.project.path)
+      path = @transformProjectPath(atom.project.path)
       return folder + @pathSeparator() + path + @pathSeparator() + 'project.json'
     else
       return folder + @pathSeparator() + 'undefined' + @pathSeparator() + 'project.json'
