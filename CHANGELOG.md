@@ -1,3 +1,5 @@
+## 0.8.10 Fix for users without an open project
+
 ## 0.8.9 Another syntax fix...
 
 ## 0.8.8 Another syntax fix

@@ -68,7 +68,7 @@ module.exports =
 
   saveFile: ->
     folder = @saveFolder()
-    if @restoreOpenFilesPerProject()
+    if @restoreOpenFilesPerProject() and atom.project.path?
       path = @transformProjectPath(atom.project.path)
       return folder + @pathSeparator() + path + @pathSeparator() + 'project.json'
     else
