@@ -42,6 +42,10 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Restore the cursor position in a file'
+    restoreScrollPosition:
+      type: 'boolean'
+      default: true
+      description: 'Restore the scroll position in a file'
     skipSavePrompt:
       type: 'boolean'
       default: true

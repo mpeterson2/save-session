@@ -11,7 +11,7 @@ module.exports =
   close: ->
     atom.workspace.constructor.prototype.saveSessionOpenFunc = atom.workspace.constructor.prototype.open
 
-    removeFunc = (path) =>
+    removeFunc = (path, options) =>
       atom.workspace.constructor.prototype.open = atom.workspace.constructor.prototype.saveSessionOpenFunc
 
     atom.workspace.constructor.prototype.open = removeFunc

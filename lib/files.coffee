@@ -20,6 +20,8 @@ module.exports =
       buffer.text = editor.buffer.cachedText
       buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
+      buffer.scroll = (($('.list-inline.tab-bar.inset-panel').height()) +
+        editor.getScrollTop()) / editor.getScrollHeight() * editor.getLineCount()
       if editor.cursors.length > 0
         buffer.cursor = editor.getCursorBufferPosition()
 
@@ -35,16 +37,23 @@ module.exports =
       @open(buffer)
 
   open: (buffer) ->
+    row = buffer.cursor.row
+    col = buffer.cursor.column
+
     if atom.workspace.saveSessionOpenFunc?
-      promise = atom.workspace.saveSessionOpenFunc(buffer.path)
+      promise = atom.workspace.saveSessionOpenFunc(buffer.path, initialLine: row, initialColumn: col)
     else
-      promise = atom.workspace.open(buffer.path)
+      promise = atom.workspace.open(buffer.path, initialLine: row, initialColumn: col)
 
     promise.then (editor) =>
       buf = editor.buffer
 
-      if Config.restoreCursor()
-        editor.setCursorBufferPosition(buffer.cursor)
+      #if Config.restoreCursor()
+      #  editor.setCursorBufferPosition(buffer.cursor)
+
+      if buffer.scroll? and Config.restoreScrollPos()
+        scroll = buffer.scroll | 0
+        editor.scrollToBufferPosition([scroll], center: true)
 
       # Replace the text if needed
       if Config.restoreOpenFileContents() and
@@ -62,3 +71,5 @@ module.exports =
 
       editor.onDidDestroy =>
         @save()
+
+      #editor.on 'scroll-top-changed', => @SaveScrollPos()

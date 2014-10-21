@@ -32,6 +32,9 @@ module.exports =
   restoreCursor: (val, force) ->
     @config 'restoreCursor', val, force
 
+  restoreScrollPos: (val, force) ->
+    @config 'restoreScrollPosition', val, force
+
   skipSavePrompt: (val, force) ->
     @config 'skipSavePrompt', val, force
 

@@ -1,3 +1,8 @@
+## 0.9.0 First steps to saving scroll position
+* It will save scrolls when files are normally saved
+* It's a little weird because of how Atom restores scrolling. Unfortunately, I
+don't have much control over it at the moment.
+
 ## 0.8.10 Fix for users without an open project
 
 ## 0.8.9 Another syntax fix...
