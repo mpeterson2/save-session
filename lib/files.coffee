@@ -6,8 +6,12 @@ Config = require './config'
 module.exports =
 
   activate: (buffers) ->
-    if Config.restoreOpenFiles() and buffers?
-      @restore buffers
+    Fs.exists Config.saveFile(), (exists) =>
+      if exists
+        Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
+          buffers = JSON.parse(str)
+          if Config.restoreOpenFiles()
+            @restore buffers
 
     @addListeners()
 

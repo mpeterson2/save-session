@@ -1,4 +1,4 @@
-# Save Session (Atom Package)
+# Save Session (Atom Package) [![Build Status](https://travis-ci.org/mpeterson2/save-session.svg?branch=master)](https://travis-ci.org/mpeterson2/save-session)
 
 Save Session is designed to reopen your last session in [Atom](https://atom.io/).
 It automatically saves all file's contents and other session information in the
@@ -53,7 +53,7 @@ they will all be set by the package when a related event happens.
 There is currently only one command: `Save Session: Reopen Project`. This is
 mostly for me, or other developers. All it does is reopen the current project.
 This allows you to edit a package and reload it without exiting out of your
-current window or loosing the project in the new window. 
+current window or loosing the project in the new window.
 
 ## How it works
 

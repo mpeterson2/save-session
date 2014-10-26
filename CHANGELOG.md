@@ -1,3 +1,7 @@
+## 0.10.0 Added lot's of tests
+* Some refactoring
+* Added tests for everything except files
+
 ## 0.9.0 First steps to saving scroll position
 * It will save scrolls when files are normally saved
 * It's a little weird because of how Atom restores scrolling. Unfortunately, I

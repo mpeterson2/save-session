@@ -86,15 +86,4 @@ module.exports =
     Dimensions.activate()
     SavePrompt.activate()
     FirstBuffer.activate()
-
-    # Activate files
-    Fs.exists Config.saveFile(), (exists) =>
-      if exists
-        Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
-          try
-            buffers = JSON.parse(str)
-            Files.activate(buffers)
-          catch
-            Files.activate([])
-      else
-        Files.activate([])
+    Files.activate()

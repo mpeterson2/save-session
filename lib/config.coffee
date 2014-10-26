@@ -1,3 +1,4 @@
+Os = require 'os'
 
 module.exports =
 
@@ -67,7 +68,7 @@ module.exports =
     return '/'
 
   isWindows: ->
-    return process.platform is 'win32'
+    return Os.platform() is 'win32'
 
   saveFile: ->
     folder = @saveFolder()

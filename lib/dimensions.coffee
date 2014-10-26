@@ -4,16 +4,16 @@ Config = require './config'
 module.exports =
 
   activate: ->
-    x = Config.windowX()
-    y = Config.windowY()
-    width = Config.windowWidth()
-    height = Config.windowHeight()
-    treeSize = Config.treeSize()
 
-    if Config.restoreWindow() and x? and y? and width? and height?
+    if Config.restoreWindow()
+      x = Config.windowX()
+      y = Config.windowY()
+      width = Config.windowWidth()
+      height = Config.windowHeight()
       @restore x, y, width, height
 
-    if Config.restoreFileTreeSize() and treeSize?
+    if Config.restoreFileTreeSize()
+      treeSize = Config.treeSize()
       @restoreTree treeSize
 
     @addListeners()
@@ -36,8 +36,9 @@ module.exports =
       atom.setSize width, height
 
   restoreTree: (size) ->
-    $(window).on 'ready', ->
-      $('.tree-view-resizer').width(size)
+    if size > 0
+      $(window).on 'ready', ->
+        $('.tree-view-resizer').width(size)
 
   addListeners: ->
     $(window).on 'resize', => @save()
