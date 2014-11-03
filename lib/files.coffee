@@ -71,7 +71,7 @@ module.exports =
     # When files are edited
     atom.workspace.observeTextEditors (editor) =>
       editor.onDidStopChanging =>
-        @save()
+        setTimeout (=>@save()), Config.extraDelay()
 
       editor.onDidDestroy =>
         @save()

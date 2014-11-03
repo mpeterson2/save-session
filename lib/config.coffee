@@ -39,6 +39,9 @@ module.exports =
   skipSavePrompt: (val, force) ->
     @config 'skipSavePrompt', val, force
 
+  extraDelay: (val, force) ->
+    @config 'extraDelay', val, force
+
   # Saving specific configs
   project: (val, force) ->
     @config 'project', val, force

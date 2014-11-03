@@ -17,9 +17,7 @@ to recreate it for Atom
 
 ## Settings
 
-All settings are now documented using Atom's new settings API, so each setting
-has a description in your settings menu. If you haven't downloaded the package
-yet, this is what you can customize.
+If you haven't downloaded the package yet, this is what you can customize.
 
 ### User settings
 
@@ -38,6 +36,8 @@ yet, this is what you can customize.
  - `Restore Project` - Whether or not the project will be reopened.
  - `Restore Window` - Whether or not the window size/positions will be saved.
  - `Skip Save Prompt` - This will disable the save on exit prompt.
+ - `Extra Delay` - Adds an extra delay for saving files when typing.
+ - `Restore Scroll Position` - **Experimental** Saves the scroll position of files.
 
 ### Other settings
 These settings are used by the package to restore data. You can change them, but

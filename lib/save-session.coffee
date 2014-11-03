@@ -50,6 +50,10 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Disable the save on exit prompt'
+    extraDelay:
+      type: 'integer'
+      default: 0
+      description: "Add an extra delay time in ms for saving files after typing"
     project:
       type: 'string'
       default: '0'

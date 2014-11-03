@@ -1,3 +1,6 @@
+## 0.11.0 Added a delay option
+* An option was added for an additional delay for saving files after typing.
+
 ## 0.10.0 Added lot's of tests
 * Some refactoring
 * Added tests for everything except files
