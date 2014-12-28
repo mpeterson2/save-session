@@ -1,3 +1,10 @@
+## 0.11.2
+* Fixed an `Undefined is not a function` issue with closing the first undefined 
+buffer.
+
+## 0.11.1
+* Fixed an issue with opening files without a cursor position
+
 ## 0.11.0 Added a delay option
 * An option was added for an additional delay for saving files after typing.
 
