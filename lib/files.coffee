@@ -34,7 +34,10 @@ module.exports =
     file = Config.saveFile()
     folder = file.substring(0, file.lastIndexOf(Config.pathSeparator()))
     mkdirp folder, (err) =>
-      Fs.writeFile(Config.saveFile(), JSON.stringify(buffers))
+      # if err
+      #   throw err
+      # else
+        Fs.writeFile(Config.saveFile(), JSON.stringify(buffers))
 
   restore: (buffers) ->
     for buffer in buffers
