@@ -78,6 +78,9 @@ module.exports =
       type: 'integer'
       default: 200
       description: 'The width of the file tree to be restored'
+    dataSaveFolder:
+      type: 'string'
+      description: 'The folder in which to save project states'
 
 
   activate: (state) ->
