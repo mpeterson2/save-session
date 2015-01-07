@@ -1,5 +1,8 @@
+## 0.11.3
+* Fixed an thrown error in Atom 0.166.0
+
 ## 0.11.2
-* Fixed an `Undefined is not a function` issue with closing the first undefined 
+* Fixed an `Undefined is not a function` issue with closing the first undefined
 buffer.
 
 ## 0.11.1
