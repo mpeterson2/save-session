@@ -34,5 +34,5 @@ module.exports =
     atom.emitter.preempt 'application:new-window', =>
       @onNewWindow()
 
-    atom.commands.add 'save-session:reopen-project', =>
+    atom.commands.add 'atom-workspace', 'save-session:reopen-project', =>
       @onReopenProject()
