@@ -1,3 +1,9 @@
+## 0.11.5
+* Fixed a deprecation issue.
+
+## 0.11.4
+* Something went wrong so this version was skipped.
+
 ## 0.11.3
 * Fixed an thrown error in Atom 0.166.0
 
