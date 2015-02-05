@@ -31,8 +31,8 @@ module.exports =
     $(window).on 'focus', (event) =>
       @save()
 
-    atom.workspaceView.preempt 'application:new-window', =>
+    atom.emitter.preempt 'application:new-window', =>
       @onNewWindow()
 
-    atom.workspaceView.command 'save-session:reopen-project', =>
+    atom.commands.add 'atom-workspace', 'save-session:reopen-project', =>
       @onReopenProject()
