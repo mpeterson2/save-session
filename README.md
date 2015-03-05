@@ -1,5 +1,11 @@
 # Save Session (Atom Package) [![Build Status](https://travis-ci.org/mpeterson2/save-session.svg?branch=master)](https://travis-ci.org/mpeterson2/save-session)
 
+## Project Status
+
+I haven't been working on Save Session lately because I have stopped using Atom, and I am finishing up school and have less time for side projects than when I started it. I'll still look at pull requests and give my thoughts on issues, but I probably won't be writing much more code for this project.
+
+## What is Save Session
+
 Save Session is designed to reopen your last session in [Atom](https://atom.io/).
 It automatically saves all file's contents and other session information in the
 background so you don't have to worry as much about losing an important file.
