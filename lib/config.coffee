@@ -58,6 +58,9 @@ module.exports =
   windowHeight: (val, force) ->
     @config 'windowHeight', val, force
 
+  fullScreen: (val, force) ->
+    @config 'fullScreen', val, force
+
   treeSize: (val, force) ->
     @config 'treeSize', val, force
 
