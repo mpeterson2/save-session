@@ -1,3 +1,6 @@
+## 0.12.0
+* Now saves fullscreen thanks to quarterto.
+
 ## 0.11.5
 * Fixed a deprecation issue.
 

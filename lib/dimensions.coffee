@@ -10,7 +10,8 @@ module.exports =
       y = Config.windowY()
       width = Config.windowWidth()
       height = Config.windowHeight()
-      @restore x, y, width, height
+      fullScreen = Config.fullScreen()
+      @restore x, y, width, height, fullScreen
 
     if Config.restoreFileTreeSize()
       treeSize = Config.treeSize()
@@ -21,19 +22,23 @@ module.exports =
   save: ->
     window = atom.getWindowDimensions()
     treeSize = $('.tree-view-resizer').width()
+    fullScreen = atom.isFullScreen()
 
     Config.windowX window.x
     Config.windowY window.y
     Config.windowWidth window.width
     Config.windowHeight window.height
     Config.treeSize treeSize
+    Config.fullScreen fullScreen
 
-  restore: (x, y, width, height, treeSize) ->
+  restore: (x, y, width, height, fullScreen) ->
     if x > 0 and y > 0
       atom.setPosition x, y
 
     if width > 0 and height > 0
       atom.setSize width, height
+
+    atom.setFullScreen fullScreen
 
   restoreTree: (size) ->
     if size > 0

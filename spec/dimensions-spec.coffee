@@ -9,11 +9,13 @@ describe 'activate tests', ->
     @width = Math.random()
     @height = Math.random()
     @treeSize = Math.random()
+    @fullScreen = Math.random() > 0.5
     spyOn(Config, 'windowX').andReturn(@x)
     spyOn(Config, 'windowY').andReturn(@y)
     spyOn(Config, 'windowWidth').andReturn(@width)
     spyOn(Config, 'windowHeight').andReturn(@height)
     spyOn(Config, 'treeSize').andReturn(@treeSize)
+    spyOn(Config, 'fullScreen').andReturn(@fullScreen)
     spyOn(Dimensions, 'restoreTree')
     spyOn(Dimensions, 'restore')
     spyOn(Dimensions, 'addListeners')
@@ -29,6 +31,7 @@ describe 'activate tests', ->
     expect(Config.windowWidth).toHaveBeenCalled()
     expect(Config.windowHeight).toHaveBeenCalled()
     expect(Config.treeSize).not.toHaveBeenCalled()
+    expect(Config.fullScreen).toHaveBeenCalled()
     expect(Config.restoreWindow).toHaveBeenCalled()
     expect(Dimensions.restore).toHaveBeenCalled()
     expect(Dimensions.restoreTree).not.toHaveBeenCalled()
@@ -45,6 +48,7 @@ describe 'activate tests', ->
     expect(Config.windowWidth).not.toHaveBeenCalled()
     expect(Config.windowHeight).not.toHaveBeenCalled()
     expect(Config.treeSize).not.toHaveBeenCalled()
+    expect(Config.fullScreen).not.toHaveBeenCalled()
     expect(Config.restoreWindow).toHaveBeenCalled()
     expect(Dimensions.restore).not.toHaveBeenCalled()
     expect(Dimensions.restoreTree).not.toHaveBeenCalled()
@@ -61,6 +65,7 @@ describe 'activate tests', ->
     expect(Config.windowWidth).toHaveBeenCalled()
     expect(Config.windowHeight).toHaveBeenCalled()
     expect(Config.treeSize).toHaveBeenCalled()
+    expect(Config.fullScreen).toHaveBeenCalled()
     expect(Config.restoreWindow).toHaveBeenCalled()
     expect(Dimensions.restore).toHaveBeenCalled()
     expect(Dimensions.restoreTree).toHaveBeenCalled()
@@ -76,6 +81,7 @@ describe 'activate tests', ->
       expect(Config.windowY).not.toHaveBeenCalled()
       expect(Config.windowWidth).not.toHaveBeenCalled()
       expect(Config.windowHeight).not.toHaveBeenCalled()
+      expect(Config.fullScreen).not.toHaveBeenCalled()
       expect(Config.treeSize).toHaveBeenCalled()
       expect(Config.restoreWindow).toHaveBeenCalled()
       expect(Dimensions.restore).not.toHaveBeenCalled()
@@ -88,12 +94,15 @@ describe 'save tests', ->
     dim =
       x: Math.random(), y: Math.random(),
       width: Math.random(), height: Math.random()
+    fullScreen = Math.random() > 0.5
     treeSize = Math.random()
     spyOn(atom, 'getWindowDimensions').andReturn(dim)
+    spyOn(atom, 'isFullScreen').andReturn(fullScreen)
     spyOn(Config, 'windowX')
     spyOn(Config, 'windowY')
     spyOn(Config, 'windowWidth')
     spyOn(Config, 'windowHeight')
+    spyOn(Config, 'fullScreen')
     spyOn(Config, 'treeSize')
     spyOn($.fn, 'width').andReturn(treeSize)
 
@@ -104,6 +113,7 @@ describe 'save tests', ->
     expect(Config.windowY).toHaveBeenCalledWith(dim.y)
     expect(Config.windowWidth).toHaveBeenCalledWith(dim.width)
     expect(Config.windowHeight).toHaveBeenCalledWith(dim.height)
+    expect(Config.fullScreen).toHaveBeenCalledWith(fullScreen)
     expect(Config.treeSize).toHaveBeenCalledWith(treeSize)
 
 
@@ -111,17 +121,20 @@ describe 'restore tests', ->
   beforeEach ->
     spyOn(atom, 'setPosition')
     spyOn(atom, 'setSize')
+    spyOn(atom, 'setFullScreen')
 
   it 'has valid params for x, y, width, height', ->
     x = Math.random() + 1
     y = Math.random() + 1
     width = Math.random() + 1
     height = Math.random() + 1
+    fullScreen = Math.random() > 0.5
 
-    Dimensions.restore(x, y, width, height)
+    Dimensions.restore(x, y, width, height, fullScreen)
 
     expect(atom.setPosition).toHaveBeenCalledWith(x, y)
     expect(atom.setSize).toHaveBeenCalledWith(width, height)
+    expect(atom.setFullScreen).toHaveBeenCalledWith(fullScreen)
 
   it 'has valid params for x, y; invalid for width, height', ->
     x = Math.random() + 1
