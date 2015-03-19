@@ -1,3 +1,7 @@
+## 0.12.1
+* Fixed an issue with saving/opening projects with Atom's new project setup
+thanks to smiffy6969.
+
 ## 0.12.0
 * Now saves fullscreen thanks to quarterto.
 

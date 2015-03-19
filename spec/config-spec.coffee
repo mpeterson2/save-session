@@ -24,7 +24,7 @@ describe 'saveFile tests', ->
     it 'With a project', ->
       spyOn(Config, 'restoreOpenFilesPerProject').andReturn(true)
       spyOn(Config, 'transformProjectPath').andReturn('project')
-      atom.project.path = 'project'
+      atom.project.path || atom.project.rootDirectories[0].path = 'project'
 
       expect(Config.saveFile()).toBe('folder/project/project.json')
       expect(Config.saveFolder).toHaveBeenCalled()
@@ -36,22 +36,22 @@ describe 'saveFile tests', ->
     it 'With no project', ->
       spyOn(Config, 'restoreOpenFilesPerProject').andReturn(true)
       spyOn(Config, 'transformProjectPath')
-      atom.project.path = undefined
+      atom.project.path || atom.project.rootDirectories[0].path = undefined
 
     it 'Without restoring per project without project', ->
       spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
       spyOn(Config, 'transformProjectPath')
-      atom.project.path = undefined
+      atom.project.path || atom.project.rootDirectories[0].path = undefined
 
     it 'Without restoring per project with project', ->
       spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
       spyOn(Config, 'transformProjectPath')
-      atom.project.path = 'path'
+      atom.project.path || atom.project.rootDirectories[0].path = 'path'
 
     it 'Without project or restoring per project', ->
       spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
       spyOn(Config, 'transformProjectPath')
-      atom.project.path = undefined
+      atom.project.path || atom.project.rootDirectories[0].path = undefined
 
     afterEach ->
       expect(Config.saveFile()).toBe('folder/undefined/project.json')
