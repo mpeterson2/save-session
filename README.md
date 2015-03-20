@@ -2,7 +2,7 @@
 
 ## Project Status
 
-I haven't been working on Save Session lately because I have stopped using Atom, and I am finishing up school and have less time for side projects than when I started it. I'll still look at pull requests and give my thoughts on issues, but I probably won't be writing much more code for this project.
+I haven't been working on Save Session lately because I have stopped using Atom, and I am finishing up school and have less time for side projects than when I started it. I'll still look at pull requests and give my thoughts on issues, but I probably won't be writing much more code for this project. Luckily, it looks like the Atom developers have decided to include this into Atom core and this package will eventually be deprecated. Here is the [issue](https://github.com/atom/atom/issues/1603) for more info.
 
 ## What is Save Session
 
