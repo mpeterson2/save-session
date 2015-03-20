@@ -1,3 +1,6 @@
+## 0.12.2
+* Fixed an issue with checking for the path incorrectly.
+
 ## 0.12.1
 * Fixed an issue with saving/opening projects with Atom's new project setup
 thanks to smiffy6969.
