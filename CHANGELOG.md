@@ -1,3 +1,7 @@
+## 0.12.3
+* Really fixed the issue from 0.12.2
+* Removed the backwards compatibility for now
+
 ## 0.12.2
 * Fixed an issue with checking for the path incorrectly.
 

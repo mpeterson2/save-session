@@ -83,10 +83,15 @@ module.exports =
       @saveFolderDefault()
       folder = @saveFolder()
 
-    if @restoreOpenFilesPerProject() and (atom.project.path? || atom.project.rootDirectories[0].path?)
-      path = @transformProjectPath(atom.project.path || atom.project.rootDirectories[0].path)
+    console.log 'project:'
+    console.log atom.project
+
+    if @restoreOpenFilesPerProject() and atom.project.rootDirectories[0]?.path?
+      path = @transformProjectPath(atom.project.rootDirectories[0].path)
+      console.log 'sdf1'
       return folder + @pathSeparator() + path + @pathSeparator() + 'project.json'
     else
+      console.log 'sdf2'
       return folder + @pathSeparator() + 'undefined' + @pathSeparator() + 'project.json'
 
   transformProjectPath: (path) ->
