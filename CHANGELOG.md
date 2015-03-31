@@ -1,3 +1,7 @@
+## 0.12.5
+* Added some of JohnMurga's changes
+* New windows work better now, but still aren't perfect
+
 ## 0.12.4
 * Removed some debugging messages.
 

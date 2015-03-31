@@ -6,8 +6,12 @@ module.exports =
   activate: ->
     @resetProject = true
     project = Config.project()
-    if Config.restoreProject() and project? and not atom.project.getPath()?
-      @restore(project)
+
+    if Config.restoreProject() and project? and
+      atom.project.getPaths().length == 0 and
+      localStorage.sessionRestore == 'true'
+        localStorage.sessionRestore = false
+        @restore(project)
 
     @addListeners()
 
@@ -18,21 +22,13 @@ module.exports =
     if path isnt '0'
       atom.project.setPath path
 
-  onNewWindow: ->
-    if @resetProject
-      Config.project(undefined, true)
-      @resetProject = true
-
   onReopenProject: ->
-    @resetProject = false
+    localStorage.sessionRestore = true
     atom.workspaceView.trigger 'application:new-window'
 
   addListeners: ->
     $(window).on 'focus', (event) =>
       @save()
-
-    atom.emitter.preempt 'application:new-window', =>
-      @onNewWindow()
 
     atom.commands.add 'atom-workspace', 'save-session:reopen-project', =>
       @onReopenProject()

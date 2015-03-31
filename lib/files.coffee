@@ -16,6 +16,7 @@ module.exports =
     @addListeners()
 
   save: ->
+    localStorage.sessionRestore = false
     buffers = []
     activePath = @getActivePath()
     atom.workspace.eachEditor (editor) ->

@@ -94,3 +94,6 @@ module.exports =
     SavePrompt.activate()
     FirstBuffer.activate()
     Files.activate()
+
+  deactivate: ->
+    localStorage.sessionRestore = true
