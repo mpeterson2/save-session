@@ -10,7 +10,7 @@ module.exports =
       if exists
         Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
           buffers = JSON.parse(str)
-          if Config.restoreOpenFiles()
+          if Config.restoreOpenFiles() and localStorage.sessions_restore == "yes"
             @restore buffers
 
     @addListeners()
