@@ -94,6 +94,8 @@ module.exports =
     SavePrompt.activate()
     FirstBuffer.activate()
     Files.activate()
+    $(window).on 'unload', (event) =>
+      @deactivate()
 
   deactivate: ->
     localStorage.sessionRestore = true
