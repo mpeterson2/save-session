@@ -1,5 +1,5 @@
 Dimensions = require '../lib/dimensions'
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 Config = require '../lib/config'
 
 describe 'activate tests', ->

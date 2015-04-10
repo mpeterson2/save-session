@@ -20,59 +20,27 @@ describe 'saveFile tests', ->
     spyOn(Config, 'saveFolder').andReturn('folder')
     spyOn(Config, 'pathSeparator').andReturn('/')
 
-  describe 'real projects', ->
-    it 'With a project', ->
-      spyOn(Config, 'restoreOpenFilesPerProject').andReturn(true)
-      spyOn(Config, 'transformProjectPath').andReturn('project')
-      atom.project.path || atom.project.rootDirectories[0].path = 'project'
+  describe 'projects restoring', ->
+    it 'is a project to be restored', ->
+      atom.project.path || atom.project.rootDirectories[0].path = '/'
 
-      expect(Config.saveFile()).toBe('folder/project/project.json')
+      expect(Config.saveFile()).toBe('folder/project.json')
       expect(Config.saveFolder).toHaveBeenCalled()
-      expect(Config.restoreOpenFilesPerProject).toHaveBeenCalled()
-      expect(Config.transformProjectPath).toHaveBeenCalled()
-      expect(Config.pathSeparator).toHaveBeenCalled()
-
-  describe 'undefined projects', ->
-    it 'With no project', ->
-      spyOn(Config, 'restoreOpenFilesPerProject').andReturn(true)
-      spyOn(Config, 'transformProjectPath')
-      atom.project.path || atom.project.rootDirectories[0].path = undefined
-
-    it 'Without restoring per project without project', ->
-      spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
-      spyOn(Config, 'transformProjectPath')
-      atom.project.path || atom.project.rootDirectories[0].path = undefined
-
-    it 'Without restoring per project with project', ->
-      spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
-      spyOn(Config, 'transformProjectPath')
-      atom.project.path || atom.project.rootDirectories[0].path = 'path'
-
-    it 'Without project or restoring per project', ->
-      spyOn(Config, 'restoreOpenFilesPerProject').andReturn(false)
-      spyOn(Config, 'transformProjectPath')
-      atom.project.path || atom.project.rootDirectories[0].path = undefined
-
-    afterEach ->
-      expect(Config.saveFile()).toBe('folder/undefined/project.json')
-      expect(Config.saveFolder).toHaveBeenCalled()
-      expect(Config.restoreOpenFilesPerProject).toHaveBeenCalled()
-      expect(Config.transformProjectPath).not.toHaveBeenCalled()
       expect(Config.pathSeparator).toHaveBeenCalled()
 
 
 describe 'transformProjectPath tests', ->
-  it 'Windows with :', ->
+  it 'is Windows with :', ->
     spyOn(Config, 'isWindows').andReturn(true)
     path = Config.transformProjectPath('c:\\path')
     expect(path).toBe('c\\path')
 
-  it 'Windows without :', ->
+  it 'is Windows without :', ->
     spyOn(Config, 'isWindows').andReturn(true)
     path = Config.transformProjectPath('path\\more')
     expect(path).toBe('path\\more')
 
-  it 'Not windows', ->
+  it 'is not windows', ->
     spyOn(Config, 'isWindows').andReturn(false)
     path = Config.transformProjectPath('path/more')
     expect(path).toBe('path/more')

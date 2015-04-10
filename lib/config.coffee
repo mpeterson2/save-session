@@ -9,14 +9,15 @@ module.exports =
   disableNewBufferOnOpenAlways: (val, force) ->
     @config 'disableNewFileOnOpenAlways', val, force
 
-  restoreOpenFilesPerProject: (val, force) ->
-    @config 'restoreOpenFilesPerProject', val, force
-
   saveFolder: (val, force) ->
-    @config 'dataSaveFolder', val, force
+    saveFolderPath = @config 'dataSaveFolder', val, force
+    if not saveFolderPath?
+      @saveFolderDefault()
+      saveFolderPath = @saveFolder()
+    return saveFolderPath
 
-  restoreProject: (val, force) ->
-    @config 'restoreProject', val, force
+  restoreProjects: (val, force) ->
+    @config 'restoreProjects', val, force
 
   restoreWindow: (val, force) ->
     @config 'restoreWindow', val, force
@@ -43,8 +44,8 @@ module.exports =
     @config 'extraDelay', val, force
 
   # Saving specific configs
-  project: (val, force) ->
-    @config 'project', val, force
+  projects: (val, force) ->
+    @config 'projects', val, force
 
   windowX: (val, force) ->
     @config 'windowX', val, force
@@ -76,18 +77,18 @@ module.exports =
   isWindows: ->
     return Os.platform() is 'win32'
 
+  isArray: (value) ->
+    value and
+      typeof value is 'object' and
+        value instanceof Array and
+        typeof value.length is 'number' and
+        typeof value.splice is 'function' and
+        not (value.propertyIsEnumerable 'length')
+
   saveFile: ->
-    folder = @saveFolder()
+    saveFolderPath = @saveFolder()
 
-    if not folder?
-      @saveFolderDefault()
-      folder = @saveFolder()
-
-    if @restoreOpenFilesPerProject() and atom.project.rootDirectories[0]?.path?
-      path = @transformProjectPath(atom.project.rootDirectories[0].path)
-      return folder + @pathSeparator() + path + @pathSeparator() + 'project.json'
-    else
-      return folder + @pathSeparator() + 'undefined' + @pathSeparator() + 'project.json'
+    return saveFolderPath + @pathSeparator() + 'project.json'
 
   transformProjectPath: (path) ->
     if @isWindows

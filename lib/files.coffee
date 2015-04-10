@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 Fs = require 'fs'
 mkdirp = require 'mkdirp'
 Config = require './config'
@@ -6,23 +6,26 @@ Config = require './config'
 module.exports =
 
   activate: (buffers) ->
-    Fs.exists Config.saveFile(), (exists) =>
+    saveFilePath = Config.saveFile()
+    Fs.exists saveFilePath, (exists) =>
       if exists
-        Fs.readFile Config.saveFile(), encoding: 'utf8', (err, str) =>
+        Fs.readFile saveFilePath, encoding: 'utf8', (err, str) =>
           buffers = JSON.parse(str)
           if Config.restoreOpenFiles()
+            console.log('restoring : ')
+            console.log(buffers)
             @restore buffers
 
     @addListeners()
 
   save: ->
-    localStorage.sessionRestore = false
     buffers = []
-    activePath = @getActivePath()
-    atom.workspace.eachEditor (editor) ->
+    activePath = atom.workspace.getActiveTextEditor().getPath()
+    atom.workspace.observeTextEditors (editor) =>
       buffer = {}
       buffer.diskText = editor.buffer.cachedDiskContents
       buffer.text = editor.buffer.cachedText
+      #TODO fix active
       buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
       buffer.scroll = (($('.list-inline.tab-bar.inset-panel').height()) +
@@ -35,7 +38,9 @@ module.exports =
     file = Config.saveFile()
     folder = file.substring(0, file.lastIndexOf(Config.pathSeparator()))
     mkdirp folder, (err) =>
-      Fs.writeFile(Config.saveFile(), JSON.stringify(buffers))
+      Fs.writeFile(file, JSON.stringify(buffers))
+      console.log(buffers)
+    
 
   restore: (buffers) ->
     for buffer in buffers
@@ -69,6 +74,7 @@ module.exports =
         buf.getText() isnt buffer.text and buf.getText() is buffer.diskText
           buf.setText(buffer.text)
 
+
   getActivePath: ->
     return $('.tab-bar').children('li.active').data('path')
 
@@ -78,7 +84,8 @@ module.exports =
       editor.onDidStopChanging =>
         setTimeout (=>@save()), Config.extraDelay()
 
-      editor.onDidDestroy =>
-        @save()
+      #Since @save method save all editors, and since editors are destroyed one by one we will loose editor when closing
+      #editor.onDidDestroy =>
+        #@save()
 
       #editor.on 'scroll-top-changed', => @SaveScrollPos()

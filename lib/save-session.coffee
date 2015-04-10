@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 Fs = require 'fs'
 Config = require './config'
 Dimensions = require './dimensions'
@@ -14,10 +14,10 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Auto close the default file opened by Atom'
-    restoreProject:
+    restoreProjects:
       type: 'boolean'
       default: true
-      description: 'Restore the last opened project'
+      description: 'Restore last opened projects'
     restoreWindow:
       type: 'boolean'
       default: true
@@ -34,10 +34,6 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Restore the contents of files that were unsaved in the last session'
-    restoreOpenFilesPerProject:
-      type: 'boolean'
-      default: true
-      description: 'Restore files from previous sessions per project'
     restoreCursor:
       type: 'boolean'
       default: true
@@ -52,12 +48,14 @@ module.exports =
       description: 'Disable the save on exit prompt'
     extraDelay:
       type: 'integer'
-      default: 0
-      description: "Add an extra delay time in ms for saving files after typing"
-    project:
-      type: 'string'
+      default: 500
+      description: "Add an extra delay time in ms for auto saving files after typing. Be carefull, auto saving copy the file to the HDD, a low value can slow down your computer."
+    projects:
+      type: 'array'
       default: '0'
-      description: 'The last open project that will be restored'
+      description: 'Lasts opened projects that will be restored'
+      items:
+        type: 'string'
     windowX:
       type: 'integer'
       default: -1
@@ -81,7 +79,6 @@ module.exports =
     dataSaveFolder:
       type: 'string'
       description: 'The folder in which to save project states'
-
 
   activate: (state) ->
     # Default settings that couldn't be set up top.
