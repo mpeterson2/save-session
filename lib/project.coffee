@@ -7,11 +7,6 @@ module.exports =
     @resetProject = true
     projects = Config.projects()
 
-    ###console.log(Config.restoreProjects() and projects?)
-    console.log(atom.project.getPaths())
-    console.log(localStorage.sessionRestore)
-    console.log(Config.restoreProjects() and projects? and localStorage.sessionRestore)###
-
     if (Config.restoreProjects() and projects? and localStorage.sessionRestore)
         localStorage.sessionRestore = false
         @restore(projects)
@@ -20,11 +15,6 @@ module.exports =
 
   save: ->
     Config.projects atom.project.getPaths()
-
-    ###console.log('config saved with :')
-    console.log(atom.project.getPaths())###
-    console.log('config saved is now :')
-    console.log(Config.projects())
 
   restore: (paths) ->
     if Config.isArray(paths)
