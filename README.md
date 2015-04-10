@@ -32,14 +32,11 @@ If you haven't downloaded the package yet, this is what you can customize.
  - `Data Save Folder` - The root folder to save the session data in.
  - `Restore Cursor` - Whether or not the cursor position should be restored.
  - `Restore File Tree Size` - Whether or not the file tree size will be restored.
- - `Restore Open Files Per Project` - If enabled, only files from previous sessions
- with the save project will be restored. Otherwise, files from your last session
- will be restored.
  - `Restore Open File Contents` - Whether or not file contents will be
  automatically restored on load. This has no effect if `Restore Open Files` is
  disabled.
  - `Restore Open Files` - Whether or not files will be reopened.
- - `Restore Project` - Whether or not the project will be reopened.
+ - `Restore Projects` - Whether or not projects will be reopened.
  - `Restore Window` - Whether or not the window size/positions will be saved.
  - `Skip Save Prompt` - This will disable the save on exit prompt.
  - `Extra Delay` - Adds an extra delay for saving files when typing.

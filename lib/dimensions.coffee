@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'atom-space-pen-views'
 Config = require './config'
 
 module.exports =
@@ -20,7 +20,6 @@ module.exports =
     @addListeners()
 
   save: ->
-    localStorage.sessionRestore = false
     window = atom.getWindowDimensions()
     treeSize = $('.tree-view-resizer').width()
     fullScreen = atom.isFullScreen()

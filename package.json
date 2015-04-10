@@ -12,9 +12,81 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "mkdirp": ">=0.5.0"
+    "mkdirp": ">=0.5.0",
+    "atom-space-pen-views": "^2.0.3"
   },
   "devDependencies": {
     "q": "^1.0.1"
+  },
+  "readme": "# Save Session (Atom Package) [![Build Status](https://travis-ci.org/mpeterson2/save-session.svg?branch=master)](https://travis-ci.org/mpeterson2/save-session)\n\n## Project Status\n\nI haven't been working on Save Session lately because I have stopped using Atom, and I am finishing up school and have less time for side projects than when I started it. I'll still look at pull requests and give my thoughts on issues, but I probably won't be writing much more code for this project. Luckily, it looks like the Atom developers have decided to include this into Atom core and this package will eventually be deprecated. Here is the [issue](https://github.com/atom/atom/issues/1603) for more info.\n\n## What is Save Session\n\nSave Session is designed to reopen your last session in [Atom](https://atom.io/).\nIt automatically saves all file's contents and other session information in the\nbackground so you don't have to worry as much about losing an important file.\nI liked how [Sublime Text](http://www.sublimetext.com/) does this, so I wanted\nto recreate it for Atom\n\n![preview](https://raw.githubusercontent.com/mpeterson2/save-session/master/preview.gif)\n\n## What is saved\n\n - The project currently being worked on\n - The files currently being worked on, whether they are saved to disk or not\n - The size of the window and file tree\n - The position of the cursor\n\n## Settings\n\nIf you haven't downloaded the package yet, this is what you can customize.\n\n### User settings\n\n - `Disable New File On Open` - Whether or not to auto close the new file auto\n opened by Atom.\n - `Data Save Folder` - The root folder to save the session data in.\n - `Restore Cursor` - Whether or not the cursor position should be restored.\n - `Restore File Tree Size` - Whether or not the file tree size will be restored.\n - `Restore Open Files Per Project` - If enabled, only files from previous sessions\n with the save project will be restored. Otherwise, files from your last session\n will be restored.\n - `Restore Open File Contents` - Whether or not file contents will be\n automatically restored on load. This has no effect if `Restore Open Files` is\n disabled.\n - `Restore Open Files` - Whether or not files will be reopened.\n - `Restore Project` - Whether or not the project will be reopened.\n - `Restore Window` - Whether or not the window size/positions will be saved.\n - `Skip Save Prompt` - This will disable the save on exit prompt.\n - `Extra Delay` - Adds an extra delay for saving files when typing.\n - `Restore Scroll Position` - **Experimental** Saves the scroll position of files.\n\n### Other settings\nThese settings are used by the package to restore data. You can change them, but\nthey will all be set by the package when a related event happens.\n\n - `Height` - The height of the editor\n - `Width` - The width of the editor\n - `X` - The x position of the editor\n - `Y` - The y position of the editor\n\n### Commands\n\nThere is currently only one command: `Save Session: Reopen Project`. This is\nmostly for me, or other developers. All it does is reopen the current project.\nThis allows you to edit a package and reload it without exiting out of your\ncurrent window or loosing the project in the new window.\n\n## How it works\n\nSave Session saves your data in two different ways. The first, is through Atom's\nsettings API. Simple things like window dimensions are saved here, but nothing\ncomplicated. The second is on your file system. Things like files info is stored\nin a folder at `<atom package dir>/save-session/<project path>/projects.json` by\ndefault.\n\n## Contributing\n\nFeel free to submit issues if you see anything misbehaving. The more information\nyou can give me about your issue the better. Things like operating system, Atom\nversion, Save Session version, your Save Session config, other installed\npackages, and any error messages in the console that mention Save Session are\nhelpful.\n\nPull requests are also welcome if you want to improve or change something.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/mpeterson2/save-session/issues"
+  },
+  "homepage": "https://github.com/mpeterson2/save-session",
+  "_id": "save-session@0.12.5",
+  "_shasum": "fc8ad9759be5c3de05df1b13c0a68640bc90762b",
+  "_resolved": "file:..\\d-11533-7824-r9mvo\\package.tgz",
+  "_from": "..\\d-11533-7824-r9mvo\\package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "mkdirp",
+        "version": "0.5.0",
+        "path": "node_modules\\mkdirp\\index.js"
+      },
+      {
+        "name": "minimist",
+        "version": "0.0.8",
+        "path": "node_modules\\mkdirp\\node_modules\\minimist\\index.js"
+      }
+    ],
+    "extensions": {
+      ".coffee": [
+        "lib\\config.coffee",
+        "lib\\dimensions.coffee",
+        "lib\\files.coffee",
+        "lib\\first-buffer.coffee",
+        "lib\\project.coffee",
+        "lib\\save-prompt.coffee",
+        "lib\\save-session.coffee"
+      ],
+      ".js": [
+        "node_modules\\mkdirp\\bin\\cmd.js",
+        "node_modules\\mkdirp\\examples\\pow.js",
+        "node_modules\\mkdirp\\index.js",
+        "node_modules\\mkdirp\\node_modules\\minimist\\example\\parse.js",
+        "node_modules\\mkdirp\\node_modules\\minimist\\index.js"
+      ],
+      ".json": [
+        "node_modules\\mkdirp\\node_modules\\minimist\\package.json",
+        "node_modules\\mkdirp\\package.json",
+        "package.json"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          "lib",
+          "",
+          "spec"
+        ],
+        "dependencies": {
+          "mkdirp": ">=0.5.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules\\mkdirp\\bin",
+          "node_modules\\mkdirp\\examples",
+          "node_modules\\mkdirp",
+          "node_modules\\mkdirp\\test"
+        ],
+        "dependencies": {
+          "minimist": "0.0.8"
+        }
+      }
+    ]
   }
 }
