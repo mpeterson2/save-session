@@ -12,8 +12,6 @@ module.exports =
         Fs.readFile saveFilePath, encoding: 'utf8', (err, str) =>
           buffers = JSON.parse(str)
           if Config.restoreOpenFiles()
-            console.log('restoring : ')
-            console.log(buffers)
             @restore buffers
 
     @addListeners()
@@ -25,7 +23,6 @@ module.exports =
       buffer = {}
       buffer.diskText = editor.buffer.cachedDiskContents
       buffer.text = editor.buffer.cachedText
-      #TODO fix active
       buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
       buffer.scroll = (($('.list-inline.tab-bar.inset-panel').height()) +
@@ -39,7 +36,6 @@ module.exports =
     folder = file.substring(0, file.lastIndexOf(Config.pathSeparator()))
     mkdirp folder, (err) =>
       Fs.writeFile(file, JSON.stringify(buffers))
-      console.log(buffers)
     
 
   restore: (buffers) ->
