@@ -85,12 +85,22 @@ module.exports =
     if not Config.saveFolder()?
       Config.saveFolderDefault()
 
-    # Activate everything
-    Project.activate()
-    Dimensions.activate()
-    SavePrompt.activate()
-    FirstBuffer.activate()
-    Files.activate()
+    (localStorage.sessionRestore = true) if not localStorage.sessionRestore?
+    sessionRestore = localStorage.sessionRestore
+
+    if localStorage.sessionRestore is 'true'
+      # Activate everything
+      Project.activate()
+      Dimensions.activate()
+      SavePrompt.activate()
+      FirstBuffer.activate()
+      Files.activate()
+    @addListener()
+
+  addListener: ->
+    $(window).on 'focus', (event) =>
+      localStorage.sessionRestore = false
+
 
   deactivate: ->
     localStorage.sessionRestore = true

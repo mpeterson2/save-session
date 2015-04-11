@@ -7,8 +7,7 @@ module.exports =
     @resetProject = true
     projects = Config.projects()
 
-    if (Config.restoreProjects() and projects? and localStorage.sessionRestore)
-        localStorage.sessionRestore = false
+    if (Config.restoreProjects() and projects?)
         @restore(projects)
 
     @addListeners()

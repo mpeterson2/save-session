@@ -81,4 +81,7 @@ module.exports =
       editor.onDidSave =>
         @save()
 
+    window.onbeforeunload = () =>
+      @save()
+
       #editor.on 'scroll-top-changed', => @SaveScrollPos()
