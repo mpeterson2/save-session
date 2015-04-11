@@ -1,4 +1,5 @@
 Os = require 'os'
+Crypto = require('crypto')
 
 module.exports =
 
@@ -97,6 +98,13 @@ module.exports =
         return path.substring(0, colon) + path.substring(colon + 1, path.length)
 
     return path
+
+  hashMyStr: (str) ->
+    hash = "" #return empty hash for empy string
+    if str? and str isnt ""
+      hash = Crypto.createHash('md5').update(str).digest("hex")
+
+    return hash
 
   config: (key, val, force) ->
     if val? or (force? and force)
