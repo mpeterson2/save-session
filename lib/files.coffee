@@ -7,7 +7,7 @@ module.exports =
 
   activate: (buffers) ->
     saveFilePath = Config.saveFile()
-    alert saveFilePath
+    
     Fs.exists saveFilePath, (exists) =>
       if exists
         Fs.readFile saveFilePath, encoding: 'utf8', (err, str) =>

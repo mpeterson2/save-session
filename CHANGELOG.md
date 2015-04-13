@@ -1,3 +1,7 @@
+## 0.13.1
+* Removed an alert that was left from debugging (sorry), again, thanks to
+anthonyraymond for catching this.
+
 ## 0.13.0
 * Big changes here. Mostly thanks to anthonyraymond
 * Files are saved far more efficiently.
