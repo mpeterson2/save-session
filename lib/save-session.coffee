@@ -34,6 +34,10 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Restore the contents of files that were unsaved in the last session'
+    restoreOpenFilesPerProject:
+      type: 'boolean'
+      default: true
+      description: 'Restore files from previous sessions per project'
     restoreCursor:
       type: 'boolean'
       default: true
@@ -49,11 +53,11 @@ module.exports =
     extraDelay:
       type: 'integer'
       default: 500
-      description: "Add an extra delay time in ms for auto saving files after typing. Be carefull, auto saving copy the file to the HDD, a low value can slow down your computer."
+      description: "Add an extra delay time in ms for auto saving files after typing."
     projects:
       type: 'array'
       default: '0'
-      description: 'Lasts opened projects that will be restored'
+      description: 'An array of the projects that will be restored'
       items:
         type: 'string'
     windowX:
@@ -88,13 +92,13 @@ module.exports =
     (localStorage.sessionRestore = true) if not localStorage.sessionRestore?
     sessionRestore = localStorage.sessionRestore
 
-    if localStorage.sessionRestore is 'true'
-      # Activate everything
-      Project.activate()
-      Dimensions.activate()
-      SavePrompt.activate()
-      FirstBuffer.activate()
-      Files.activate()
+    # Activate everything
+    Project.activate()
+    Dimensions.activate()
+    SavePrompt.activate()
+    FirstBuffer.activate()
+    Files.activate()
+
     @addListener()
 
   addListener: ->

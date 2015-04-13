@@ -1,6 +1,16 @@
+## 0.13.0
+* Big changes here. Mostly thanks to anthonyraymond
+* Files are saved far more efficiently.
+* Deprecations have been taken care of.
+* Some issues have shown up when saving while closing editors, so that is
+disabled for now.
+* Multiple projects will now be restored on the project tree.
+* Probably some other changes as well...
+
+
 ## 0.12.5
-* Added some of JohnMurga's changes
-* New windows work better now, but still aren't perfect
+* Added some of JohnMurga's changes.
+* New windows work better now, but still aren't perfect.
 
 ## 0.12.4
 * Removed some debugging messages.

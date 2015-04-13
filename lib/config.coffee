@@ -10,10 +10,13 @@ module.exports =
   disableNewBufferOnOpenAlways: (val, force) ->
     @config 'disableNewFileOnOpenAlways', val, force
 
+  restoreOpenFilesPerProject: (val, force) ->
+    @config 'restoreOpenFilesPerProject', val, force
+
   saveFolder: (val, force) ->
     saveFolderPath = @config 'dataSaveFolder', val, force
     if not saveFolderPath?
-      @saveFolderDefault()
+      @setSaveFolderDefault()
       saveFolderPath = @saveFolder()
     return saveFolderPath
 
@@ -67,7 +70,7 @@ module.exports =
     @config 'treeSize', val, force
 
   #Helpers
-  saveFolderDefault: ->
+  setSaveFolderDefault: ->
     @saveFolder(atom.packages.getPackageDirPaths() + @pathSeparator() + 'save-session' + @pathSeparator() + 'projects')
 
   pathSeparator: ->
@@ -88,6 +91,13 @@ module.exports =
 
   saveFile: ->
     saveFolderPath = @saveFolder()
+
+    if @restoreOpenFilesPerProject() and atom.project.getPaths().length > 0
+      projects = @projects()
+      projectPath = projects[0] if projects.length > 0
+      if projectPath?
+        path = @transformProjectPath(projectPath)
+        return saveFolderPath + @pathSeparator() + path + @pathSeparator() + 'project.json'
 
     return saveFolderPath + @pathSeparator() + 'project.json'
 

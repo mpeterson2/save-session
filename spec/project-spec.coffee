@@ -63,6 +63,7 @@ describe 'restore tests', ->
   it 'contains valid paths', ->
     paths = ['/this/is/a/valid/path', 'this/as/well']
     spyOn(atom.project, 'addPath')
+    localStorage.sessionRestore = true
 
     Project.restore paths
     expect(atom.project.addPath).toHaveBeenCalledWith(paths[0])

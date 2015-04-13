@@ -4,7 +4,6 @@ Config = require './config'
 module.exports =
 
   activate: ->
-    @resetProject = true
     projects = Config.projects()
 
     if (Config.restoreProjects() and projects?)
@@ -16,7 +15,8 @@ module.exports =
     Config.projects atom.project.getPaths()
 
   restore: (paths) ->
-    if Config.isArray(paths)
+    if Config.isArray(paths) and localStorage.sessionRestore is 'true'
+      localStorage.sessionRestore = false
       for path in paths
         atom.project.addPath(path)
 
