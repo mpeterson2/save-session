@@ -56,7 +56,7 @@ module.exports =
       description: "Add an extra delay time in ms for auto saving files after typing."
     projects:
       type: 'array'
-      default: '0'
+      default: []
       description: 'An array of the projects that will be restored'
       items:
         type: 'string'
@@ -82,6 +82,7 @@ module.exports =
       description: 'The width of the file tree to be restored'
     dataSaveFolder:
       type: 'string'
+      default: ''
       description: 'The folder in which to save project states'
 
   activate: (state) ->
