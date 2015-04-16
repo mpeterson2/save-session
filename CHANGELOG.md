@@ -1,3 +1,6 @@
+## 0.13.2
+* Should more reliably deactivate thanks to JohnMurga.
+
 ## 0.13.1
 * Removed an alert that was left from debugging (sorry), again, thanks to
 anthonyraymond for catching this.

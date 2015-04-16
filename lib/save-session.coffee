@@ -98,14 +98,15 @@ module.exports =
     SavePrompt.activate()
     FirstBuffer.activate()
     Files.activate()
-    $(window).on 'unload', (event) =>
-      @deactivate()
 
-    @addListener()
+    @addListeners()
 
   addListener: ->
     $(window).on 'focus', (event) =>
       localStorage.sessionRestore = false
+
+    $(window).on 'unload', (event) =>
+      @deactivate()
 
 
   deactivate: ->
