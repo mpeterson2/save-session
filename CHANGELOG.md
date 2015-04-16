@@ -1,3 +1,6 @@
+## 0.13.4
+* Fixed an issue where the package wouldn't activate.
+
 ## 0.13.3
 * Forgot to move to master on my last push.
 * This has 0.13.2's changes.

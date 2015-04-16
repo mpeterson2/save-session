@@ -101,12 +101,12 @@ module.exports =
 
     @addListeners()
 
-  addListener: ->
+  addListeners: ->
     $(window).on 'focus', (event) =>
       localStorage.sessionRestore = false
 
     $(window).on 'unload', (event) =>
-      @deactivate()
+      localStorage.sessionRestore = true
 
 
   deactivate: ->
