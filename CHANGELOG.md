@@ -1,3 +1,6 @@
+## 0.13.5
+* Added another check to project paths to help prevent an error.
+
 ## 0.13.4
 * Fixed an issue where the package wouldn't activate.
 

@@ -94,7 +94,7 @@ module.exports =
 
     if @restoreOpenFilesPerProject() and atom.project.getPaths().length > 0
       projects = @projects()
-      projectPath = projects[0] if projects.length > 0
+      projectPath = projects[0] if (projects? and projects.length > 0)
       if projectPath?
         path = @transformProjectPath(projectPath)
         return saveFolderPath + @pathSeparator() + path + @pathSeparator() + 'project.json'
