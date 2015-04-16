@@ -1,3 +1,7 @@
+## 0.13.3
+* Forgot to move to master on my last push.
+* This has 0.13.2's changes.
+
 ## 0.13.2
 * Should more reliably deactivate thanks to JohnMurga.
 
