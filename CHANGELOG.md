@@ -1,3 +1,6 @@
+## 0.14.0
+* Deprecated the package since the functionality has been added to Atom core.
+
 ## 0.13.5
 * Added another check to project paths to help prevent an error.
 
