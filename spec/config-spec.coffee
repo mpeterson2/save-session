@@ -22,9 +22,9 @@ describe 'saveFile tests', ->
 
   describe 'projects restoring', ->
     it 'is a project to be restored', ->
-      atom.project.path || atom.project.rootDirectories[0].path = '/'
+      atom.project.path || atom.project.rootDirectories[0].path = 'path'
 
-      expect(Config.saveFile()).toBe('folder/project.json')
+      expect(Config.saveFile()).toBe('folder/path/project.json')
       expect(Config.saveFolder).toHaveBeenCalled()
       expect(Config.pathSeparator).toHaveBeenCalled()
 

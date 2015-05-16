@@ -20,54 +20,14 @@ module.exports =
       saveFolderPath = @saveFolder()
     return saveFolderPath
 
-  restoreProjects: (val, force) ->
-    @config 'restoreProjects', val, force
-
-  restoreWindow: (val, force) ->
-    @config 'restoreWindow', val, force
-
-  restoreFileTreeSize: (val, force) ->
-    @config 'restoreFileTreeSize', val, force
-
-  restoreOpenFiles: (val, force) ->
-    @config 'restoreOpenFiles', val, force
-
   restoreOpenFileContents: (val, force) ->
     @config 'restoreOpenFileContents', val, force
-
-  restoreCursor: (val, force) ->
-    @config 'restoreCursor', val, force
-
-  restoreScrollPos: (val, force) ->
-    @config 'restoreScrollPosition', val, force
 
   skipSavePrompt: (val, force) ->
     @config 'skipSavePrompt', val, force
 
   extraDelay: (val, force) ->
     @config 'extraDelay', val, force
-
-  # Saving specific configs
-  projects: (val, force) ->
-    @config 'projects', val, force
-
-  windowX: (val, force) ->
-    @config 'windowX', val, force
-
-  windowY: (val, force) ->
-    @config 'windowY', val, force
-
-  windowWidth: (val, force) ->
-    @config 'windowWidth', val, force
-
-  windowHeight: (val, force) ->
-    @config 'windowHeight', val, force
-
-  fullScreen: (val, force) ->
-    @config 'fullScreen', val, force
-
-  treeSize: (val, force) ->
-    @config 'treeSize', val, force
 
   #Helpers
   setSaveFolderDefault: ->
@@ -92,9 +52,10 @@ module.exports =
   saveFile: ->
     saveFolderPath = @saveFolder()
 
-    if @restoreOpenFilesPerProject() and atom.project.getPaths().length > 0
-      projects = @projects()
+    if atom.project.getPaths().length > 0
+      projects = atom.project.getPaths()
       projectPath = projects[0] if (projects? and projects.length > 0)
+
       if projectPath?
         path = @transformProjectPath(projectPath)
         return saveFolderPath + @pathSeparator() + path + @pathSeparator() + 'project.json'

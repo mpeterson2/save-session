@@ -1,3 +1,10 @@
+## 0.15.0
+* WARNING: This may not be compatible with older versions. Save your files
+before updating
+* Undeprecated the package.
+* Removed a lot of code for managing the state of Atom.
+* Now this package only saves unsaved buffers.
+
 ## 0.14.0
 * Deprecated the package since the functionality has been added to Atom core.
 

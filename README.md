@@ -1,8 +1,13 @@
 # Save Session (Atom Package) [![Build Status](https://travis-ci.org/mpeterson2/save-session.svg?branch=master)](https://travis-ci.org/mpeterson2/save-session)
 
-## Project Status: Deprecated
+## Project Status: Undeprecated
 
-Save Session is deprecated as of Atom 0.193.0 - the same functionality [has been added to Atom core](https://github.com/atom/atom/issues/1603#issuecomment-93599126), and will continue to be refined until Atom 1.0.
+Since not all of Save Session's functionality has been added into Atom's core,
+Save Session is now undeprecated and has been modified to work with Atom 0.193.0.
+All that Save Session does now is manage unsaved files.
+
+Check out [this issue](https://github.com/atom/atom/issues/1603#issuecomment-93599126)
+for the status of this functionality being added to Atom core.
 
 ## What is Save Session
 

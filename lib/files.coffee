@@ -7,12 +7,12 @@ module.exports =
 
   activate: (buffers) ->
     saveFilePath = Config.saveFile()
-    
+
     Fs.exists saveFilePath, (exists) =>
       if exists
         Fs.readFile saveFilePath, encoding: 'utf8', (err, str) =>
           buffers = JSON.parse(str)
-          if Config.restoreOpenFiles()
+          if Config.restoreOpenFileContents()
             @restore buffers
 
     @addListeners()
@@ -21,17 +21,12 @@ module.exports =
     buffers = []
     activePath = atom.workspace.getActiveTextEditor().getPath()
 
-    atom.workspace.observeTextEditors (editor) =>
+    atom.workspace.getTextEditors().map (editor) =>
       buffer = {}
       if editor.getBuffer().isModified()
         buffer.text = editor.getBuffer().cachedText
         buffer.diskText = Config.hashMyStr(editor.getBuffer().cachedDiskContents)
-      buffer.active = activePath is editor.getPath()
       buffer.path = editor.getPath()
-      buffer.scroll = (($('.list-inline.tab-bar.inset-panel').height()) +
-        editor.getScrollTop()) / editor.getScrollHeight() * editor.getLineCount()
-      if editor.cursors.length > 0
-        buffer.cursor = editor.getCursorBufferPosition()
 
       buffers.push buffer
 
@@ -43,36 +38,28 @@ module.exports =
 
   restore: (buffers) ->
     for buffer in buffers
-      @open(buffer)
+      @restoreText(buffer)
 
 
-  open: (buffer) ->
-    if buffer.cursor?
-      row = buffer.cursor.row
-      col = buffer.cursor.column
+  restoreText: (buffer) ->
+    if buffer.path == undefined
+      editors = atom.workspace.getEditors().filter (editor) =>
+        editor.buffer.file == null and editor.buffer.cachedText == ''
+
+      if editors.length > 0
+        buf = editors[0].getBuffer()
+
     else
-      row = 0
-      col = 0
+      editors = atom.workspace.getEditors().filter (editor) =>
+        editor.buffer.file?.path == buffer.path
 
-    if atom.workspace.saveSessionOpenFunc?
-      promise = atom.workspace.saveSessionOpenFunc(buffer.path, initialLine: row, initialColumn: col)
-    else
-      promise = atom.workspace.open(buffer.path, initialLine: row, initialColumn: col)
+      if editors.length > 0
+        buf = editors[0].getBuffer()
 
-    promise.then (editor) =>
-      buf = editor.getBuffer()
-
-      #if Config.restoreCursor()
-      #  editor.setCursorBufferPosition(buffer.cursor)
-
-      if buffer.scroll? and Config.restoreScrollPos()
-        scroll = buffer.scroll | 0
-        editor.scrollToBufferPosition([scroll], center: true)
-
-      # Replace the text if needed
-      if Config.restoreOpenFileContents() and buffer.text? and
-        buf.getText() isnt buffer.text and Config.hashMyStr(buf.getText()) is buffer.diskText
-          buf.setText(buffer.text)
+    # Replace the text if needed
+    if Config.restoreOpenFileContents() and buffer.text? and buf? and
+      buf.getText() isnt buffer.text and Config.hashMyStr(buf.getText()) is buffer.diskText
+        buf.setText(buffer.text)
 
   addListeners: ->
     # When files are edited
@@ -84,5 +71,3 @@ module.exports =
 
     window.onbeforeunload = () =>
       @save()
-
-      #editor.on 'scroll-top-changed', => @SaveScrollPos()
