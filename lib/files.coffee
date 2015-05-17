@@ -43,14 +43,14 @@ module.exports =
 
   restoreText: (buffer) ->
     if buffer.path == undefined
-      editors = atom.workspace.getEditors().filter (editor) =>
+      editors = atom.workspace.getTextEditors().filter (editor) =>
         editor.buffer.file == null and editor.buffer.cachedText == ''
 
       if editors.length > 0
         buf = editors[0].getBuffer()
 
     else
-      editors = atom.workspace.getEditors().filter (editor) =>
+      editors = atom.workspace.getTextEditors().filter (editor) =>
         editor.buffer.file?.path == buffer.path
 
       if editors.length > 0
