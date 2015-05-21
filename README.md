@@ -19,13 +19,6 @@ it for Atom.
 
 ![preview](https://raw.githubusercontent.com/mpeterson2/save-session/master/preview.gif)
 
-## What is saved
-
- - The project currently being worked on
- - The files currently being worked on, whether they are saved to disk or not
- - The size of the window and file tree
- - The position of the cursor
-
 ## Settings
 
  - `Data Save Folder` - The root folder to save the session data in.

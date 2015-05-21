@@ -1,3 +1,6 @@
+## 0.15.2
+* Removed the "what is saved" section of the readme.
+
 ## 0.15.1
 * Fixed a deprecation issue.
 * Updated readme since so much functionality has been removed.
