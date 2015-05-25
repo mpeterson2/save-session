@@ -19,7 +19,6 @@ module.exports =
 
   save: ->
     buffers = []
-    activePath = atom.workspace.getActiveTextEditor().getPath()
 
     atom.workspace.getTextEditors().map (editor) =>
       buffer = {}
