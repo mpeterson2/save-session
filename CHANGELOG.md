@@ -1,3 +1,6 @@
+## 0.15.3
+* May have fixed the `getPath` issue.
+
 ## 0.15.2
 * Removed the "what is saved" section of the readme.
 
