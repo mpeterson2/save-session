@@ -82,3 +82,6 @@ module.exports =
       atom.config.set 'save-session.' + key, val
     else
       atom.config.get 'save-session.' + key
+
+  observe: (key, callback) ->
+    atom.config.observe('save-session.' + key, callback)

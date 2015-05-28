@@ -1,3 +1,6 @@
+## 0.15.4
+* Fixed some issues an undefined function.
+
 ## 0.15.3
 * May have fixed the `getPath` issue.
 
