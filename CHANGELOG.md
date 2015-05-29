@@ -1,3 +1,6 @@
+## 0.15.5
+* Made the specs run... Poorly.
+
 ## 0.15.4
 * Fixed some issues an undefined function.
 
