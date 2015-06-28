@@ -1,3 +1,6 @@
+## 0.15.6
+* Updated the readme to reference a more up-to-date issue.
+
 ## 0.15.5
 * Made the specs run... Poorly.
 
