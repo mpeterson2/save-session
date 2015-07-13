@@ -1,3 +1,6 @@
+## 0.15.7
+* phord fixed some cache issues.
+
 ## 0.15.6
 * Updated the readme to reference a more up-to-date issue.
 
