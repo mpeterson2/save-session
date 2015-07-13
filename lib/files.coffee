@@ -57,7 +57,7 @@ module.exports =
 
     # Replace the text if needed
     if Config.restoreOpenFileContents() and buffer.text? and buf? and
-      buf.getText() isnt buffer.text and Config.hashMyStr(buf.getText()) is buffer.diskText
+      buf.getText() isnt buffer.text and Config.hashMyStr(buf.cachedDiskContents) is buffer.diskText
         buf.setText(buffer.text)
 
   addListeners: ->
