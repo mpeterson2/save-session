@@ -1,3 +1,6 @@
+## 0.16.0
+* Deprecated Save Session for 1.4.0
+
 ## 0.15.7
 * phord fixed some cache issues.
 
